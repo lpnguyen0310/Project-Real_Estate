@@ -8,9 +8,11 @@ import com.javaweb.enums.TypeCode;
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.dto.BuildingResponseDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
+import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.service.IBuildingService;
 import com.javaweb.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -60,4 +62,7 @@ public class BuildingController {
 
         return mav;
     }
+
+
+
 }

@@ -349,7 +349,7 @@
                         <tr>
                             <th class="center">
                                 <label class="pos-rel">
-                                    <input type="checkbox" class="ace">
+                                    <p class="center">Chọn</p>
                                     <span class="lbl"></span>
                                 </label>
                             </th>
@@ -359,27 +359,6 @@
                         </thead>
 
                         <tbody>
-                        <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" class="ace" value="30">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
-                            <td>Dev</td>
-
-                        </tr>
-                        <tr>
-                            <td class="center">
-                                <label class="pos-rel">
-                                    <input type="checkbox" class="ace" value="31">
-                                    <span class="lbl"></span>
-                                </label>
-                            </td>
-                            <td>Dev</td>
-
-                        </tr>
-
                         </tbody>
                     </table>
                 </div>
@@ -401,7 +380,95 @@
         console.log('Hello Nguyên');
         $('#buildingId').val(id);
         $('#assignmentBuildingModal').modal();
+        loadStaff(id);
     }
+
+
+    // checked = "checked"
+    // nhũng building không được giao thì checked= ""
+    // function loadStaff(id){
+    //     $.ajax({
+    //         url: '/api/building/' + id + '/staffs',
+    //         type: 'GET',
+    //         // data: JSON.stringify(data), // Convert từ Object sang JSON
+    //         // contentType: 'application/json', // Kiểu dữ liệu gửi đi là JSON
+    //         dataType: "JSON",
+    //         success: function (response) {
+    //             console.log('Success');
+    //         },
+    //         error: function (response) {
+    //             console.log('Fail');
+    //         }
+    //     })
+    // }
+    function loadStaff(buildingId) {
+        $('#buildingId').val(buildingId); // Gán ID tòa nhà vào input ẩn
+
+        $.ajax({
+            url: "/api/building/" + buildingId + "/staffs",
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (response) {
+                console.log("Response from API:", response); // Kiểm tra dữ liệu trả về
+
+                var row = '';
+                response.forEach(function (item) {
+                    row += '<tr>';
+                    row += '<td class="center">';
+                    row += '<label class="pos-rel">';
+                    row += '<input type="checkbox" class="ace" value="' + item.staffId + '" ' + (item.checked === 'checked' ? 'checked' : '') + '>';
+                    row += '<span class="lbl"></span>';
+                    row += '</label>';
+                    row += '</td>';
+                    row += '<td class="center">' + item.fullName + '</td>';
+                    row += '</tr>';
+                });
+
+
+                $('#staff-list tbody').html(row); // Thêm nội dung vào bảng
+            },
+            error: function () {
+                alert('Không thể tải danh sách nhân viên. Vui lòng thử lại.');
+            }
+        });
+    }
+
+    <%--function loadStaff(buildingId) {--%>
+    <%--    $('#buildingId').val(buildingId); // Gán ID tòa nhà vào input ẩn--%>
+
+    <%--    $.ajax({--%>
+    <%--        url: "/api/building/" + buildingId + "/staffs",--%>
+    <%--        type: 'GET',--%>
+    <%--        dataType: 'JSON',--%>
+    <%--        success: function (response) {--%>
+    <%--            console.log("Response from API:", response); // Kiểm tra dữ liệu trả về--%>
+
+    <%--            // Xóa các hàng cũ trong bảng--%>
+    <%--            $('#staff-list tbody').empty();--%>
+
+    <%--            // Tạo HTML cho từng nhân viên--%>
+    <%--            response.forEach(function (item) {--%>
+    <%--                const row = `--%>
+    <%--                <tr>--%>
+    <%--                    <td class="center">--%>
+    <%--                        <input type="checkbox" class="ace" value="${item.staffId}" ${item.checked}>--%>
+    <%--                        <span class="lbl"></span>--%>
+    <%--                    </td>--%>
+    <%--                    <td class="center">${item.}</td>--%>
+    <%--                </tr>--%>
+    <%--            `;--%>
+    <%--                $('#staff-list tbody').append(row); // Thêm dòng vào bảng--%>
+    <%--            });--%>
+
+    <%--            // Hiển thị modal--%>
+    <%--            $('#assignmentBuildingModal').modal('show');--%>
+    <%--        },--%>
+    <%--        error: function () {--%>
+    <%--            alert('Không thể tải danh sách nhân viên. Vui lòng thử lại.');--%>
+    <%--        }--%>
+    <%--    });--%>
+    // }
+
 
     $('#btn-deleteBuilding').click(function(e) {
         e.preventDefault();

@@ -36,7 +36,19 @@ public class UserEntity extends BaseEntity {
     private List<RoleEntity> roles = new ArrayList<>();
 
 
-//    @OneToMany(mappedBy="staffs", fetch = FetchType.LAZY)
+
+    @ManyToMany(mappedBy = "assignedStaffs")
+    private List<BuildingEntity> assignedBuildings;
+
+    public List<BuildingEntity> getAssignedBuildings() {
+        return assignedBuildings;
+    }
+
+    public void setAssignedBuildings(List<BuildingEntity> assignedBuildings) {
+        this.assignedBuildings = assignedBuildings;
+    }
+
+    //    @OneToMany(mappedBy="staffs", fetch = FetchType.LAZY)
 //    private List<AssignmentBuildingEntity> assignmentBuildingEntities = new ArrayList<>();
 //
 //    @OneToMany(mappedBy="users", fetch = FetchType.LAZY)

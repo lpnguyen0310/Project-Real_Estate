@@ -2,6 +2,8 @@ package com.javaweb.api.admin;
 
 import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.response.ResponseDTO;
+import com.javaweb.model.response.StaffResponseDTO;
+import com.javaweb.repository.UserRepository;
 import com.javaweb.service.IBuildingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,6 +22,10 @@ public class BuildingAPI {
 
     @Autowired
     private IBuildingService buildingService;
+
+    @Autowired
+    private UserRepository userRepository;
+
     @PostMapping("/api/building")
     public ResponseEntity<?> createOrUpdateBuilding(@Valid @RequestBody BuildingDTO buildingDTO, BindingResult bindingResult) {
         try {
@@ -81,6 +87,14 @@ public class BuildingAPI {
            return ResponseEntity.ok().body(responseDTO);
        }
     }
+
+    @GetMapping("/api/building/{buildingId}/staffs")
+    public ResponseEntity<List<StaffResponseDTO>> getStaffsByBuilding(@PathVariable Long buildingId) {
+        List<StaffResponseDTO> response = buildingService.getStaffsByBuilding(buildingId);
+
+        return ResponseEntity.ok(response);
+    }
+
 
 
 }

@@ -129,6 +129,23 @@ public class BuildingEntity {
     @Column(name = "type")
     private String typeCode;
 
+    @ManyToMany
+    @JoinTable(
+            name = "assignmentbuilding", // Tên bảng liên kết
+            joinColumns = @JoinColumn(name = "buildingid"), // Cột khóa ngoại từ bảng Building
+            inverseJoinColumns = @JoinColumn(name = "staffid") // Cột khóa ngoại từ bảng User
+    )
+    private List<UserEntity> assignedStaffs;
+
+
+    public List<UserEntity> getAssignedStaffs() {
+        return assignedStaffs;
+    }
+
+    public void setAssignedStaffs(List<UserEntity> assignedStaffs) {
+        this.assignedStaffs = assignedStaffs;
+    }
+
     public String getTypeCode() {
         return typeCode;
     }
