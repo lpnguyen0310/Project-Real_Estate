@@ -6,7 +6,7 @@ public class BuildingResponseDTO {
     private String address;
     private Long numberOfBasement;
     private String managerName;
-    private String managerPhoneNumber;
+    private String managerPhone;
     private Long floorArea;
     private String structure;
     private String rentArea;
@@ -54,12 +54,12 @@ public class BuildingResponseDTO {
         this.managerName = managerName;
     }
 
-    public String getManagerPhoneNumber() {
-        return managerPhoneNumber;
+    public String getManagerPhone() {
+        return managerPhone;
     }
 
-    public void setManagerPhoneNumber(String managerPhoneNumber) {
-        this.managerPhoneNumber = managerPhoneNumber;
+    public void setManagerPhone(String managerPhoneNumber) {
+        this.managerPhone = managerPhoneNumber;
     }
 
     public Long getFloorArea() {

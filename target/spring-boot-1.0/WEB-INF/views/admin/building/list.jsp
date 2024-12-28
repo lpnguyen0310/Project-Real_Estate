@@ -302,7 +302,7 @@
                                     <td>${item.address}</td>
                                     <td>${item.numberOfBasement}</td>
                                     <td>${item.managerName}</td>
-                                    <td>${item.managerPhoneNumber}</td>
+                                    <td>${item.managerPhone}</td>
                                     <td>${item.floorArea}</td>
                                     <td>${item.rentArea}</td>
                                     <td>${item.structure}</td>
@@ -479,11 +479,14 @@
             contentType: 'application/json', // Kiểu dữ liệu gửi đi là JSON
             dataType: "JSON",
             success: function (response) {
-                alert('Assingment Success');
+                // alert('Assingment Success');
+                alert(response.message);
                 console.log('Success');
+                window.location.href="<c:url value="/admin/building-list" />"
             },
             error: function (response) {
                 console.log('Fail');
+                alert(response.message);
                 alert('Assingment Fail');
             }
         })

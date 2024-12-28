@@ -302,7 +302,7 @@
                                     <td>${item.address}</td>
                                     <td>${item.numberOfBasement}</td>
                                     <td>${item.managerName}</td>
-                                    <td>${item.managerPhoneNumber}</td>
+                                    <td>${item.managerPhone}</td>
                                     <td>${item.floorArea}</td>
                                     <td>${item.rentArea}</td>
                                     <td>${item.structure}</td>

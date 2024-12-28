@@ -289,7 +289,7 @@
                                         <button type="button" class="btn btn-primary" id="btnAddBuilding">Thêm Tòa Nhà</button>
                                     </c:if>
 
-                                    <button type="button" class="btn btn-warning">Hủy Thao Tác</button>
+                                    <button type="button" class="btn btn-warning" id="btnCancelBuilding">Hủy Thao Tác</button>
 
 
                                 </div>
@@ -318,31 +318,53 @@
 <!-- <![endif]-->
 
 <script>
-    $('#btnAddBuilding').click(function (e) {
-        e.preventDefault();
-        var formData = $('#from-edit').serializeArray(); // Mảng các đổi tượng
-        var json = {};
-        var typeCode = [];
-        $.each(formData, function (i, field) {
-            if(field.name != "typeCode"){
-                json["" + field.name + ""] = field.value;
+        $('#btnAddBuilding').click(function (e) {
+            e.preventDefault();
+            var formData = $('#from-edit').serializeArray(); // Mảng các đổi tượng
+            var json = {};
+            var typeCode = [];
+            var isValid = true;
+            $.each(formData, function (i, field) {
+                if(field.name != "typeCode"){
+                    json["" + field.name + ""] = field.value;
+                }
+                else{
+                    typeCode.push(field.value);
+                }
+            });
+            json["typeCode"] = typeCode;
+            // Kiểm tra từng trường
+            if (json['name'] == '') {
+                $('#name').after('<span class="error-message" style="color: red">Vui lòng nhập tên tòa nhà</span>');
+                isValid = false;
+            }
+            if (json['district'] == '') {
+                $('#district').after('<span class="error-message" style="color: red">Vui lòng chọn quận</span>');
+                isValid = false;
+            }
+            if (json['ward'] == '') {
+                $('#ward').after('<span class="error-message" style="color: red">Vui lòng nhập phường</span>');
+                isValid = false;
+            }
+            if (json['rentPrice'] == '' || isNaN(json['rentPrice']) || parseFloat(json['rentPrice']) <= 0) {
+                $('#rentPrice').after('<span class="error-message" style="color: red">Vui lòng nhập giá thuê hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['brokerageFee'] == '' || isNaN(json['brokerageFee']) || parseFloat(json['brokerageFee']) <= 0) {
+                $('#brokerageFee').after('<span class="error-message" style="color: red">Vui lòng nhập phí môi giới hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['floorArea'] == '' || isNaN(json['floorArea']) || parseFloat(json['floorArea']) <= 0) {
+                $('#floorArea').after('<span class="error-message" style="color: red">Vui lòng nhập diện tích hợp lệ</span>');
+                isValid = false;
+            }
+            if (isValid){
+                AddBuilding(json);
             }
             else{
-                typeCode.push(field.value);
+                alert('Vui lòng nhập đầy đủ thông tin');
             }
-        });
-        json["typeCode"] = typeCode;
-        if (json['name'] == '')
-        {
-            $('#name').after('<span style="color: red">Vui lòng nhập tên tòa nhà</span>');
-        }
-        if (1){
-            AddBuilding(json);
-        }
-        else{
-            alert('Vui lòng nhập đầy đủ thông tin');
-        }
-    })
+        })
 
         function AddBuilding(data){
             // Kiểm tra id có tồn tại hay không
@@ -365,6 +387,13 @@
                 }
             })
         }
+
+        // Hủy thao tác
+        $('#btnCancelBuilding').click(function (e) {
+            e.preventDefault();
+            window.location.href="<c:url value="/admin/building-list" />"
+        })
+
 </script>
 </body>
 </html>

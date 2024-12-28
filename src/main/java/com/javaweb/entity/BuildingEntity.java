@@ -1,13 +1,14 @@
 package com.javaweb.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Entity
 @Table(name = "building")
-public class BuildingEntity {
+public class BuildingEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -19,6 +20,7 @@ public class BuildingEntity {
 
     @Column(name = "street")
     private String street;
+
 
     @Column(name = "ward")
     private String ward;
@@ -124,7 +126,7 @@ public class BuildingEntity {
     private String managerName;
 
     @Column(name = "managerphone")
-    private String managerPhoneNumber;
+    private String managerPhone;
 
     @Column(name = "type")
     private String typeCode;
@@ -412,12 +414,12 @@ public class BuildingEntity {
         this.managerName = managerName;
     }
 
-    public String getManagerPhoneNumber() {
-        return managerPhoneNumber;
+    public String getManagerPhone() {
+        return managerPhone;
     }
 
-    public void setManagerPhoneNumber(String managerPhoneNumber) {
-        this.managerPhoneNumber = managerPhoneNumber;
+    public void setManagerPhone(String managerPhone) {
+        this.managerPhone = managerPhone;
     }
 
     public String getDistrict() {

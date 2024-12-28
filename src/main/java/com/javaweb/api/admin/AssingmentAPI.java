@@ -24,13 +24,10 @@ public class AssingmentAPI {
        // Xuống service
         ResponseDTO responseDTO = new ResponseDTO();
         try {
-            // Call the service to assign staff to the building
             assingmentBuildingService.assignBuildingToStaff(assignmentBuildingDTO.getBuildingId(), assignmentBuildingDTO.getStaffIds());
-
-            // Set success message
             responseDTO.setMessage("Assign building successfully");
             return ResponseEntity.ok(responseDTO);
-        } catch (RuntimeException e) {
+        } catch (Exception e) {
             // Handle specific runtime errors
             responseDTO.setMessage("Assign building failed");
             responseDTO.setDetail(e.getMessage());
