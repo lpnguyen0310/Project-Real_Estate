@@ -4,7 +4,7 @@ import java.util.List;
 
 public class AssignmentBuildingDTO {
     private Long buildingId;
-    private List<Long> staffs;
+    private List<Long> staffIds;
 
     public Long getBuildingId() {
         return buildingId;
@@ -14,11 +14,11 @@ public class AssignmentBuildingDTO {
         this.buildingId = buildingId;
     }
 
-    public List<Long> getStaffs() {
-        return staffs;
+    public List<Long> getStaffIds() {
+        return staffIds;
     }
 
-    public void setStaffs(List<Long> staffs) {
-        this.staffs = staffs;
+    public void setStaffIds(List<Long> staffIds) {
+        this.staffIds = staffIds;
     }
 }

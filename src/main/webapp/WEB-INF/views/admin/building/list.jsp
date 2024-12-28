@@ -433,41 +433,6 @@
         });
     }
 
-    <%--function loadStaff(buildingId) {--%>
-    <%--    $('#buildingId').val(buildingId); // Gán ID tòa nhà vào input ẩn--%>
-
-    <%--    $.ajax({--%>
-    <%--        url: "/api/building/" + buildingId + "/staffs",--%>
-    <%--        type: 'GET',--%>
-    <%--        dataType: 'JSON',--%>
-    <%--        success: function (response) {--%>
-    <%--            console.log("Response from API:", response); // Kiểm tra dữ liệu trả về--%>
-
-    <%--            // Xóa các hàng cũ trong bảng--%>
-    <%--            $('#staff-list tbody').empty();--%>
-
-    <%--            // Tạo HTML cho từng nhân viên--%>
-    <%--            response.forEach(function (item) {--%>
-    <%--                const row = `--%>
-    <%--                <tr>--%>
-    <%--                    <td class="center">--%>
-    <%--                        <input type="checkbox" class="ace" value="${item.staffId}" ${item.checked}>--%>
-    <%--                        <span class="lbl"></span>--%>
-    <%--                    </td>--%>
-    <%--                    <td class="center">${item.}</td>--%>
-    <%--                </tr>--%>
-    <%--            `;--%>
-    <%--                $('#staff-list tbody').append(row); // Thêm dòng vào bảng--%>
-    <%--            });--%>
-
-    <%--            // Hiển thị modal--%>
-    <%--            $('#assignmentBuildingModal').modal('show');--%>
-    <%--        },--%>
-    <%--        error: function () {--%>
-    <%--            alert('Không thể tải danh sách nhân viên. Vui lòng thử lại.');--%>
-    <%--        }--%>
-    <%--    });--%>
-    // }
 
 
     $('#btn-deleteBuilding').click(function(e) {
@@ -495,12 +460,14 @@
         }).get();
         json['staffIds'] = staffIds;
         console.log(json);
-        if(json['buildingId'] != '' && json['staffIds'].length > 0) {
+        if (json['buildingId'].length > 0) {
             updateAssingment(json);
         }
         else {
-            alert('Vui lòng chọn tòa nhà và nhân viên');
+            alert('Building ID is required');
         }
+
+
     });
 
     // Ajax Assignment Building
@@ -510,13 +477,17 @@
             type: 'POST',
             data: JSON.stringify(data), // Convert từ Object sang JSON
             contentType: 'application/json', // Kiểu dữ liệu gửi đi là JSON
+            dataType: "JSON",
             success: function (response) {
-                alert('Cập nhật tòa nhà thành công');
+                // alert('Assingment Success');
+                alert(response.message);
                 console.log('Success');
+                window.location.href="<c:url value="/admin/building-list" />"
             },
             error: function (response) {
                 console.log('Fail');
-                alert('Cập nhật tòa nhà thất bại');
+                alert(response.message);
+                alert('Assingment Fail');
             }
         })
     }

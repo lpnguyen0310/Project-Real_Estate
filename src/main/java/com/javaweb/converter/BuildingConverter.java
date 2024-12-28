@@ -118,51 +118,5 @@ public class BuildingConverter {
         dto.setNote(entity.getNote());
         return dto;
     }
-    public void updateBuildingEntityFromDTO(BuildingDTO buildingDTO, BuildingEntity entity) {
-        entity.setName(buildingDTO.getName());
-        entity.setDistrict(buildingDTO.getDistrict());
-        entity.setWard(buildingDTO.getWard());
-        entity.setStreet(buildingDTO.getStreet());
-        entity.setStructure(buildingDTO.getStructure());
-        entity.setNumberOfBasement(buildingDTO.getNumberOfBasement());
-        entity.setFloorArea(buildingDTO.getFloorArea());
-        entity.setDirection(buildingDTO.getDirection());
-        entity.setLevel(buildingDTO.getLevel());
-        entity.setRentPrice(buildingDTO.getRentPrice());
-        entity.setRentPriceDescription(buildingDTO.getRentPriceDescription());
-        entity.setServiceFee(buildingDTO.getServiceFee());
-        entity.setCarFee(buildingDTO.getCarFee());
-        entity.setMotorbikeFee(buildingDTO.getMotoFee());
-        entity.setOvertimeFee(buildingDTO.getOvertimeFee());
-        entity.setElectricityFee(buildingDTO.getElectricityFee());
-        entity.setWaterFee(buildingDTO.getWaterFee());
-        entity.setDeposit(buildingDTO.getDeposit());
-        entity.setPayment(buildingDTO.getPayment());
-        entity.setRentTime(buildingDTO.getRentTime());
-        entity.setDecorationTime(buildingDTO.getDecorationTime());
-        entity.setManagerName(buildingDTO.getManagerName());
-        entity.setManagerPhoneNumber(buildingDTO.getManagerPhone());
-        entity.setTypeCode(String.join(",", buildingDTO.getTypeCode()));
-        entity.setNote(buildingDTO.getNote());
-        entity.setBrokerageFee(buildingDTO.getBrokerageFee());
-        entity.setId(buildingDTO.getId());
-        // Xử lý rentArea
-        if (buildingDTO.getRentArea() != null && !buildingDTO.getRentArea().isEmpty()) {
-            // Tách chuỗi rentArea thành mảng các giá trị rentArea
-            List<RentAreaEntity> rentAreas = Arrays.stream(buildingDTO.getRentArea().split(","))
-                    // Xóa khoảng trắng ở đầu và cuối mỗi chuỗi
-                    .map(String::trim)
-                    // Chuyển chuỗi thành số nguyên
-                    .map(Integer::valueOf)
-                    // Chuyển số nguyên lưu vào  RentAreaEntity
-                    .map(value -> {
-                        RentAreaEntity rentArea = new RentAreaEntity();
-                        rentArea.setValue(Long.valueOf(value));
-                        rentArea.setBuildingEntity(entity);
-                        return rentArea;
-                    })
-                    .collect(Collectors.toList());
-            entity.setRentAreas(rentAreas); // Gán danh sách rentAreas vào BuildingEntity
-        }
-    }
+
 }

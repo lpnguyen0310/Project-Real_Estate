@@ -45,7 +45,7 @@ public class BuildingAPI {
             }
                 BuildingDTO savedBuilding = buildingService.addBuilding(buildingDTO);
                 if (savedBuilding == null) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Thêm mới thất bại");
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Add building failed");
           }
 
 
@@ -62,14 +62,12 @@ public class BuildingAPI {
     public ResponseEntity<?> deleteBuilding(@RequestBody List<Long> ids) {
        if(ids.size() == 0){
            ResponseDTO responseDTO = new ResponseDTO();
-           responseDTO.setMessage("Vui lòng chọn ít nhất 1 tòa nhà để xóa");
+           responseDTO.setMessage("Please choose at least 1 building to delete");
               return ResponseEntity.badRequest().body(responseDTO);
        }
        else {
            buildingService.deleteBuildingById(ids);
        }
-
-
 
        return ResponseEntity.ok("Xóa thành công");
     }
@@ -78,22 +76,25 @@ public class BuildingAPI {
     public ResponseEntity<?> deleteBuildings(@PathVariable List<Long> ids) {
        if (ids.size() == 0) {
            ResponseDTO responseDTO = new ResponseDTO();
-           responseDTO.setMessage("Vui lòng chọn ít nhất 1 tòa nhà để xóa");
+           responseDTO.setMessage("Please choose at least 1 building to delete");
            return ResponseEntity.badRequest().body(responseDTO);
        } else {
            buildingService.deleteAllByIdIn(ids);
            ResponseDTO responseDTO = new ResponseDTO();
-           responseDTO.setMessage("Xóa các tòa nhà thành công");
+           responseDTO.setMessage("Delete successfully");
            return ResponseEntity.ok().body(responseDTO);
        }
     }
 
+    // API lấy danh sách tòa nhà theo id tòa nhà và trả về danh sách nhân viên được gán vào tòa nhà
     @GetMapping("/api/building/{buildingId}/staffs")
     public ResponseEntity<List<StaffResponseDTO>> getStaffsByBuilding(@PathVariable Long buildingId) {
         List<StaffResponseDTO> response = buildingService.getStaffsByBuilding(buildingId);
-
         return ResponseEntity.ok(response);
     }
+
+
+
 
 
 

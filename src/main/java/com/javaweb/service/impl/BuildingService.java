@@ -133,7 +133,9 @@ public class BuildingService implements IBuildingService {
                 .orElseThrow(() -> new RuntimeException("Tòa nhà không tồn tại"));
 
         // Lấy danh sách nhân viên được gán vào tòa nhà
+        // Hoặc qua bên entity dùng fetch.Eager không cần dùng hibernate
         Hibernate.initialize(building.getAssignedStaffs()); // Tải dữ liệu assignedStaffs
+
         List<UserEntity> assignedStaffs = building.getAssignedStaffs();
 
         // Lấy toàn bộ nhân viên có status = 1 và role.code = 'STAFF'
