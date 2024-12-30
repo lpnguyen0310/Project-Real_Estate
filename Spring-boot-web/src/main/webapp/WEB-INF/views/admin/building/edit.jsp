@@ -333,16 +333,16 @@
                 }
             });
             json["typeCode"] = typeCode;
-            // Kiểm tra từng trường
-            if (json['name'] == '') {
+            // Thử Nghiệm kiem tra từng trường
+            if (json['name'] == '' || json['name'] == null) {
                 $('#name').after('<span class="error-message" style="color: red">Vui lòng nhập tên tòa nhà</span>');
                 isValid = false;
             }
-            if (json['district'] == '') {
+            if (json['district'] == '' || json['district'] == null) {
                 $('#district').after('<span class="error-message" style="color: red">Vui lòng chọn quận</span>');
                 isValid = false;
             }
-            if (json['ward'] == '') {
+            if (json['ward'] == '' || json['ward'] == null) {
                 $('#ward').after('<span class="error-message" style="color: red">Vui lòng nhập phường</span>');
                 isValid = false;
             }
