@@ -13,4 +13,5 @@ public interface BuildingRepositoryCustom {
 
     // Xóa List Tòa nhà theo id
     void deleteAllByIdIn(List<Long> ids);
+    void deleteBuildingById(Long id);
 }

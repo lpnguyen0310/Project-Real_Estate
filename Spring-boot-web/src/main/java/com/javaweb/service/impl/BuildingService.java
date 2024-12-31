@@ -4,6 +4,7 @@ package com.javaweb.service.impl;
 import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.converter.BuildingConverter;
 import com.javaweb.converter.BuildingSearchBuilderConverter;
+import com.javaweb.entity.AssignmentBuildingEntity;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.entity.RentAreaEntity;
 import com.javaweb.entity.UserEntity;
@@ -121,32 +122,60 @@ public class BuildingService implements IBuildingService {
         // Xóa RentAreaEntity liên quan
         for (Long id : ids) {
             rentAreaRepositoryImpl.deleteRentAreaByBuildingId(id); // Xóa các RentArea liên quan
-            buildingRepository.deleteById(id); // Xóa BuildingEntity
+            buildingRepository.deleteBuildingById(id); // Xóa BuildingEntity
         }
 
     }
 
     @Override
     public List<StaffResponseDTO> getStaffsByBuilding(Long buildingId) {
+        // Cách 1: Dùng @ManyToMany
+
         // Tìm tòa nhà và kiểm tra nếu không tồn tại
-        BuildingEntity building = buildingRepository.findById(buildingId)
-                .orElseThrow(() -> new RuntimeException("Tòa nhà không tồn tại"));
+//        BuildingEntity building = buildingRepository.findById(buildingId)
+//                .orElseThrow(() -> new RuntimeException("Tòa nhà không tồn tại"));
+//
+//        // Lấy danh sách nhân viên được gán vào tòa nhà
+//        // Hoặc qua bên entity dùng fetch.Eager không cần dùng hibernate
+//        Hibernate.initialize(building.getAssignedStaffs()); // Tải dữ liệu assignedStaffs
+//
+//        List<UserEntity> assignedStaffs = building.getAssignedStaffs();
+//
+//        // Lấy toàn bộ nhân viên có status = 1 và role.code = 'STAFF'
+//        List<UserEntity> allStaffs = userRepository.findByStatusAndRoles_Code(1, "STAFF");
+//
+//        // Chuyển đổi sang DTO và kiểm tra nếu nhân viên đã được gán
+//        return allStaffs.stream().map(staff -> {
+//            StaffResponseDTO dto = new StaffResponseDTO();
+//            dto.setStaffId(staff.getId());
+//            dto.setFullName(staff.getFullName());
+//            dto.setChecked(assignedStaffs.contains(staff) ? "checked" : ""); // Kiểm tra nếu đã gán thì "checked"
+//            return dto;
+//        }).collect(Collectors.toList());
 
-        // Lấy danh sách nhân viên được gán vào tòa nhà
-        // Hoặc qua bên entity dùng fetch.Eager không cần dùng hibernate
-        Hibernate.initialize(building.getAssignedStaffs()); // Tải dữ liệu assignedStaffs
+        // Cách 2: Dùng thủ công OneToMany và ManyToOne
 
-        List<UserEntity> assignedStaffs = building.getAssignedStaffs();
+
+        // Dùng get để lấy dữ liệu
+        BuildingEntity building = buildingRepository.findById(buildingId).get();
+
+        // Lấy danh sách AssignmentBuilding của tòa nhà
+        List<AssignmentBuildingEntity> assignments = building.getAssignments();
+
+        // Lấy danh sách nhân viên đã được gán vào tòa nhà
+        List<Long> assignedStaffIds = assignments.stream()
+                .map(assignment -> assignment.getStaff().getId())
+                .collect(Collectors.toList());
 
         // Lấy toàn bộ nhân viên có status = 1 và role.code = 'STAFF'
         List<UserEntity> allStaffs = userRepository.findByStatusAndRoles_Code(1, "STAFF");
 
-        // Chuyển đổi sang DTO và kiểm tra nếu nhân viên đã được gán
+        // Chuyển đổi danh sách sang DTO và kiểm tra nếu nhân viên đã được gán
         return allStaffs.stream().map(staff -> {
             StaffResponseDTO dto = new StaffResponseDTO();
             dto.setStaffId(staff.getId());
             dto.setFullName(staff.getFullName());
-            dto.setChecked(assignedStaffs.contains(staff) ? "checked" : ""); // Kiểm tra nếu đã gán thì "checked"
+            dto.setChecked(assignedStaffIds.contains(staff.getId()) ? "checked" : ""); // Kiểm tra nếu đã gán
             return dto;
         }).collect(Collectors.toList());
     }

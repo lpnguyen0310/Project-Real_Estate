@@ -8,5 +8,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BuildingRepository extends JpaRepository<BuildingEntity,Long>, BuildingRepositoryCustom {
-  //BuildingEntity findOneByBuildingId(Long buildingId);
+//    void deleteRentAreaByBuildingId(Long id);
+    //BuildingEntity findOneByBuildingId(Long buildingId);
+
+//    void deleteBuildingEntitiesBy(Long id);
 }

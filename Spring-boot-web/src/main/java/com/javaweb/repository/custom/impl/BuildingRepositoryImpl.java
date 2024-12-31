@@ -122,5 +122,13 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
 
     }
 
+    @Override
+    public void deleteBuildingById(Long id) {
+        String sql = "delete from building where id = :id";
+        Query query = entityManager.createNativeQuery(sql,BuildingEntity.class);
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
 
 }

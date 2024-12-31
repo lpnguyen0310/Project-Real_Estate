@@ -64,7 +64,7 @@ public class BuildingEntity extends BaseEntity{
     private String carFee;
 
     @Column(name = "motofee")
-    private String motorbikeFee;
+    private String motoFee;
 
     @Column(name = "overtimefee")
     private String overtimeFee;
@@ -131,22 +131,33 @@ public class BuildingEntity extends BaseEntity{
     @Column(name = "type")
     private String typeCode;
 
-    @ManyToMany
-    @JoinTable(
-            name = "assignmentbuilding", // Tên bảng liên kết
-            joinColumns = @JoinColumn(name = "buildingid"), // Cột khóa ngoại từ bảng Building
-            inverseJoinColumns = @JoinColumn(name = "staffid") // Cột khóa ngoại từ bảng User
-    )
-    private List<UserEntity> assignedStaffs;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "assignmentbuilding", // Tên bảng liên kết
+//            joinColumns = @JoinColumn(name = "buildingid"), // Cột khóa ngoại từ bảng Building
+//            inverseJoinColumns = @JoinColumn(name = "staffid") // Cột khóa ngoại từ bảng User
+//    )
+//    private List<UserEntity> assignedStaffs;
 
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+    private List<AssignmentBuildingEntity> assignments = new ArrayList<>();
 
-    public List<UserEntity> getAssignedStaffs() {
-        return assignedStaffs;
+    public List<AssignmentBuildingEntity> getAssignments() {
+        return assignments;
     }
 
-    public void setAssignedStaffs(List<UserEntity> assignedStaffs) {
-        this.assignedStaffs = assignedStaffs;
+    public void setAssignments(List<AssignmentBuildingEntity> assignments) {
+        this.assignments = assignments;
     }
+
+
+    //    public List<UserEntity> getAssignedStaffs() {
+//        return assignedStaffs;
+//    }
+//
+//    public void setAssignedStaffs(List<UserEntity> assignedStaffs) {
+//        this.assignedStaffs = assignedStaffs;
+//    }
 
     public String getTypeCode() {
         return typeCode;
@@ -270,12 +281,12 @@ public class BuildingEntity extends BaseEntity{
         this.carFee = carFee;
     }
 
-    public String getMotorbikeFee() {
-        return motorbikeFee;
+    public String getMotoFee() {
+        return motoFee;
     }
 
-    public void setMotorbikeFee(String motorbikeFee) {
-        this.motorbikeFee = motorbikeFee;
+    public void setMotoFee(String motoFee) {
+        this.motoFee = motoFee;
     }
 
     public String getOvertimeFee() {

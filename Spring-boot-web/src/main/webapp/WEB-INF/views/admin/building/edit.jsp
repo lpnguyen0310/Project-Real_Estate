@@ -358,6 +358,46 @@
                 $('#floorArea').after('<span class="error-message" style="color: red">Vui lòng nhập diện tích hợp lệ</span>');
                 isValid = false;
             }
+            if (json['rentArea'] == '' || isNaN(json['rentArea']) || parseFloat(json['rentArea']) <= 0) {
+                $('#rentArea').after('<span class="error-message" style="color: red">Vui lòng nhập diện tích thuê hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['serviceFee'] == '' || isNaN(json['serviceFee']) || parseFloat(json['serviceFee']) <= 0) {
+                $('#serviceFee').after('<span class="error-message" style="color: red">Vui lòng nhập phí dịch vụ hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['carFee'] == '' || isNaN(json['carFee']) || parseFloat(json['carFee']) <= 0) {
+                $('#carFee').after('<span class="error-message" style="color: red">Vui lòng nhập phí ô tô hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['motoFee'] == '' || isNaN(json['motoFee']) || parseFloat(json['motoFee']) <= 0) {
+                $('#motoFee').after('<span class="error-message" style="color: red">Vui lòng nhập phí mô tô hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['overtimeFee'] == '' || isNaN(json['overtimeFee']) || parseFloat(json['overtimeFee']) <= 0) {
+                $('#overtimeFee').after('<span class="error-message" style="color: red">Vui lòng nhập phí ngoài giờ hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['electricityFee'] == '' || isNaN(json['electricityFee']) || parseFloat(json['electricityFee']) <= 0) {
+                $('#electricityFee').after('<span class="error-message" style="color: red">Vui lòng nhập tiền điện hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['waterFee'] == '' || isNaN(json['waterFee']) || parseFloat(json['waterFee']) <= 0) {
+                $('#waterFee').after('<span class="error-message" style="color: red">Vui lòng nhập tiền nước hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['deposit'] == '' || isNaN(json['deposit']) || parseFloat(json['deposit']) <= 0) {
+                $('#deposit').after('<span class="error-message" style="color: red">Vui lòng nhập tiền đặt cọc hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['rentTime'] == '' || isNaN(json['rentTime']) || parseFloat(json['rentTime']) <= 0) {
+                $('#rentTime').after('<span class="error-message" style="color: red">Vui lòng nhập thời hạn thuê hợp lệ</span>');
+                isValid = false;
+            }
+            if (json['decorationTime'] == '' || isNaN(json['decorationTime']) || parseFloat(json['decorationTime']) <= 0) {
+                $('#decorationTime').after('<span class="error-message" style="color: red">Vui lòng nhập thời gian trang trí hợp lệ</span>');
+                isValid = false;
+            }
             if (isValid){
                 AddBuilding(json);
             }
