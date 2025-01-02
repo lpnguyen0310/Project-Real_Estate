@@ -15,6 +15,7 @@ import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.RentAreaRepository;
 import com.javaweb.repository.UserRepository;
+import com.javaweb.repository.custom.impl.AssignmentRepositoryImpl;
 import com.javaweb.repository.custom.impl.RentAreaRepositoryImpl;
 import com.javaweb.service.IBuildingService;
 import org.hibernate.Hibernate;
@@ -53,6 +54,9 @@ public class BuildingService implements IBuildingService {
 
     @Autowired
     private BuildingConverter buildingConverter;
+
+    @Autowired
+    private AssignmentRepositoryImpl assignmentRepository;
     @Override
     public List<BuildingResponseDTO> findAll(BuildingSearchRequest searchParams) {
         BuildingSearchBuilder builder = buildingSearchBuilder.toBuildingSearchBuilder(searchParams);
@@ -70,10 +74,6 @@ public class BuildingService implements IBuildingService {
         return null;
     }
 
-    @Override
-    public void deleteBuildingById(List<Long> ids) {
-
-    }
 
     @Override
     public BuildingDTO findBuildingById(Long id) {
@@ -92,7 +92,7 @@ public class BuildingService implements IBuildingService {
                     .orElseThrow(() -> new RuntimeException("Building not found"));
 
             // Xóa các RentAreaEntity cũ
-            rentAreaRepositoryImpl.deleteRentAreaByBuildingId(buildingDTO.getId());
+            rentAreaRepositoryImpl.deleteOneRentAreaByBuildingId(buildingDTO.getId());
         }
 
         // Lưu Entity vào cơ sở dữ liệu
@@ -109,10 +109,6 @@ public class BuildingService implements IBuildingService {
 
     }
 
-    @Override
-    public void deleteBuilding(Long id) {
-
-    }
 
     @Override
     public void deleteAllByIdIn(List<Long> ids) {
@@ -120,10 +116,9 @@ public class BuildingService implements IBuildingService {
             throw new RuntimeException("Danh sách ID không hợp lệ.");
         }
         // Xóa RentAreaEntity liên quan
-        for (Long id : ids) {
-            rentAreaRepositoryImpl.deleteRentAreaByBuildingId(id); // Xóa các RentArea liên quan
-            buildingRepository.deleteBuildingById(id); // Xóa BuildingEntity
-        }
+        rentAreaRepositoryImpl.deleteRentAreaByBuildingId(ids); // Xóa các RentArea liên quan
+        assignmentRepository.deleteAssingmentByBuildingId(ids); // Xóa AssignmentBuildingEntity
+        buildingRepository.deleteBuildingById(ids); // Xóa BuildingEntity
 
     }
 

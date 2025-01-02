@@ -2,7 +2,6 @@ package com.javaweb.repository.custom.impl;
 
 import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.entity.BuildingEntity;
-import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
 import com.javaweb.utils.DataUtil;
 import org.springframework.stereotype.Repository;
@@ -12,7 +11,6 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.lang.reflect.Field;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
@@ -123,8 +121,8 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
     }
 
     @Override
-    public void deleteBuildingById(Long id) {
-        String sql = "delete from building where id = :id";
+    public void deleteBuildingById(List<Long> id) {
+        String sql = "delete from building where id in (:id)";
         Query query = entityManager.createNativeQuery(sql,BuildingEntity.class);
         query.setParameter("id", id);
         query.executeUpdate();

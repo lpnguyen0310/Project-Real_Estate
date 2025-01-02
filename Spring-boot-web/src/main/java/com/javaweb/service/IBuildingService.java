@@ -11,7 +11,7 @@ import java.util.List;
 public interface IBuildingService {
     List<BuildingResponseDTO> findAll(BuildingSearchRequest searchParams);
     BuildingEntity createOrUpdateBuilding(BuildingDTO buildingDTO);
-    void deleteBuildingById(List<Long> ids);
+
 
     BuildingDTO findBuildingById(Long id);
     // Lưu building
@@ -19,7 +19,7 @@ public interface IBuildingService {
     BuildingDTO addBuilding(BuildingDTO buildingDTO);
 
     // Xóa building
-    void deleteBuilding(Long id);
+
 
     // Xóa List Tòa nhà theo id
     void deleteAllByIdIn(List<Long> ids);

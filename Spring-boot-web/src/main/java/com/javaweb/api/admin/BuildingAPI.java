@@ -66,7 +66,7 @@ public class BuildingAPI {
               return ResponseEntity.badRequest().body(responseDTO);
        }
        else {
-           buildingService.deleteBuildingById(ids);
+           buildingService.deleteAllByIdIn(ids);
        }
 
        return ResponseEntity.ok("Xóa thành công");
