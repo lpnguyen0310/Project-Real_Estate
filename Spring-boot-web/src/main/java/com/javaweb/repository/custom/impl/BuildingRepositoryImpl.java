@@ -116,11 +116,6 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
     }
 
     @Override
-    public void deleteAllByIdIn(List<Long> ids) {
-
-    }
-
-    @Override
     public void deleteBuildingById(List<Long> id) {
         String sql = "delete from building where id in (:id)";
         Query query = entityManager.createNativeQuery(sql,BuildingEntity.class);

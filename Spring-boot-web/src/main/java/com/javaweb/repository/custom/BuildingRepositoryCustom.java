@@ -11,6 +11,5 @@ public interface BuildingRepositoryCustom {
     BuildingEntity findBuildingById(Long id);
 
     // Xóa List Tòa nhà theo id
-    void deleteAllByIdIn(List<Long> ids);
     void deleteBuildingById(List<Long> id);
 }
