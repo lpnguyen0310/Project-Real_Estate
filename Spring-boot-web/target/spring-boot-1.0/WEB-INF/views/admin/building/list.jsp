@@ -279,7 +279,7 @@
 
                             <!-- Cột hiển thị checkbox -->
                             <display:column title="Chọn" class="center">
-                                <input type="checkbox" value="${building.id}x">
+                                <input type="checkbox" value="${building.id}">
                             </display:column>
 
                             <!-- Các cột hiển thị thông tin -->
@@ -420,7 +420,7 @@
     $('#btn-deleteBuilding').click(function(e) {
         e.preventDefault();
         var data = {};
-        var ids = $('#building-list').find('tbody input[type="checkbox"]:checked').map(function() {
+        var ids = $('#building').find('tbody input[type="checkbox"]:checked').map(function() {
             return $(this).val();
         }).get();
         data['ids'] = ids;

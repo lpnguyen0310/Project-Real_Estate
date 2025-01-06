@@ -89,34 +89,86 @@ public class BuildingService implements IBuildingService {
         return buildingConverter.toBuildingDTO(entity);
     }
 
+//    @Override
+//    public BuildingDTO addBuilding(BuildingDTO buildingDTO) {
+//        // Chuyển đổi từ DTO sang Entity
+//        BuildingEntity buildingEntity = buildingConverter.toBuildingEntity(buildingDTO);
+//        // Nếu là cập nhật, xóa các RentArea cũ
+//        if (buildingDTO.getId() != null) {
+//            BuildingEntity existingEntity = buildingRepository.findById(buildingDTO.getId())
+//                    .orElseThrow(() -> new RuntimeException("Building not found"));
+//            // Ảnh
+//            buildingEntity.setAvatar(existingEntity.getAvatar());
+//            // Dùng OneToMany Xóa các RentAreaEntity cũ
+//            //rentAreaRepositoryImpl.deleteOneRentAreaByBuildingId(buildingDTO.getId());
+//            // Chuyển sang cach 2 dùng cascade
+//            existingEntity.getRentAreas().clear(); // Dùng orphanRemoval = true
+//        }
+//        // Lưu ảnh
+//        saveThumbnail(buildingDTO, buildingEntity);
+//        // Lưu Entity vào cơ sở dữ liệu
+//        BuildingEntity savedEntity = buildingRepository.save(buildingEntity);
+//        // Lưu RentAreaEntity nếu có
+//        if (buildingEntity.getRentAreas() != null) {
+//            for (RentAreaEntity rentArea : buildingEntity.getRentAreas()) {
+////                rentAreaRepository.save(rentArea);
+//                rentArea.setValue(rentArea.getValue());
+//                rentArea.setBuildingEntity(savedEntity);
+//                buildingEntity.getRentAreas().add(rentArea);
+//            }
+//        }
+//
+//        // Chuyển đổi ngược lại từ Entity sang DTO để trả về
+//        return buildingConverter.toBuildingDTO(savedEntity);
+//
+//    }
+
     @Override
     public BuildingDTO addBuilding(BuildingDTO buildingDTO) {
-        // Chuyển đổi từ DTO sang Entity
-        BuildingEntity buildingEntity = buildingConverter.toBuildingEntity(buildingDTO);
-        // Nếu là cập nhật, xóa các RentArea cũ
+        // Initialize the building entity
+        BuildingEntity buildingEntity;
+
+        // Check if updating an existing building
         if (buildingDTO.getId() != null) {
-            BuildingEntity existingEntity = buildingRepository.findById(buildingDTO.getId())
+            // Retrieve the existing entity
+            buildingEntity = buildingRepository.findById(buildingDTO.getId())
                     .orElseThrow(() -> new RuntimeException("Building not found"));
-            // Ảnh
-            buildingEntity.setAvatar(existingEntity.getAvatar());
-            // Xóa các RentAreaEntity cũ
-            rentAreaRepositoryImpl.deleteOneRentAreaByBuildingId(buildingDTO.getId());
+
+            // Retain the avatar
+            buildingEntity.setAvatar(buildingEntity.getAvatar());
+
+            // Clear existing RentAreas (orphanRemoval will take care of deletion)
+            buildingEntity.getRentAreas().clear();
+        } else {
+            // Create a new building entity
+            buildingEntity = buildingConverter.toBuildingEntity(buildingDTO);
         }
-        // Lưu ảnh
-        saveThumbnail(buildingDTO, buildingEntity);
-        // Lưu Entity vào cơ sở dữ liệu
-        BuildingEntity savedEntity = buildingRepository.save(buildingEntity);
-        // Lưu RentAreaEntity nếu có
-        if (buildingEntity.getRentAreas() != null) {
-            for (RentAreaEntity rentArea : buildingEntity.getRentAreas()) {
-                rentAreaRepository.save(rentArea);
+
+        // Handle RentAreas (if any) from the DTO
+        if (buildingDTO.getRentArea() != null && !buildingDTO.getRentArea().isEmpty()) {
+            String[] rentAreaValues = buildingDTO.getRentArea().split(",");
+            for (String value : rentAreaValues) {
+                try {
+                    Integer rentAreaValue = Integer.parseInt(value.trim());
+                    RentAreaEntity rentAreaEntity = new RentAreaEntity();
+                    rentAreaEntity.setValue(Long.valueOf(rentAreaValue));
+                    rentAreaEntity.setBuildingEntity(buildingEntity); // Link the rent area to the building
+                    buildingEntity.getRentAreas().add(rentAreaEntity);
+                } catch (NumberFormatException e) {
+                    throw new RuntimeException("Invalid rent area value: " + value);
+                }
             }
         }
+        // lưu ảnh
+        saveThumbnail(buildingDTO, buildingEntity);
 
-        // Chuyển đổi ngược lại từ Entity sang DTO để trả về
+        // Save the entity and return the DTO
+        BuildingEntity savedEntity = buildingRepository.save(buildingEntity);
+
+        // Convert to DTO and return
         return buildingConverter.toBuildingDTO(savedEntity);
-
     }
+
 
 
     @Override
@@ -125,9 +177,19 @@ public class BuildingService implements IBuildingService {
             throw new RuntimeException("Danh sách ID không hợp lệ.");
         }
         // Xóa RentAreaEntity liên quan
-        rentAreaRepositoryImpl.deleteRentAreaByBuildingId(ids); // Xóa các RentArea liên quan
-        assignmentRepository.deleteAssingmentByBuildingId(ids); // Xóa AssignmentBuildingEntity
-        buildingRepository.deleteBuildingById(ids); // Xóa BuildingEntity
+//        rentAreaRepositoryImpl.deleteRentAreaByBuildingId(ids); // Xóa các RentArea liên quan
+//        assignmentRepository.deleteAssingmentByBuildingId(ids); // Xóa AssignmentBuildingEntity
+//        buildingRepository.deleteBuildingById(ids); // Xóa BuildingEntity
+
+        List<BuildingEntity> buildings = buildingRepository.findAllById(ids);
+
+        // Ensure the associations (RentArea) are cleared for each building
+        for (BuildingEntity building : buildings) {
+            building.getRentAreas().clear(); // This triggers orphanRemoval
+        }
+
+        // Delete the buildings (rent areas are deleted due to orphanRemoval)
+        buildingRepository.deleteBuildingById(ids);
 
     }
 
