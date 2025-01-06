@@ -34,6 +34,8 @@ public class BuildingController {
     @GetMapping("admin/building-list")
     public ModelAndView getBuildingPage(@ModelAttribute("modelSearch") BuildingSearchRequest params, HttpServletRequest request){
             ModelAndView mav = new ModelAndView("admin/building/list");
+            // Do không nhân được dữ liệu từ request nên phải set lại giá trị cho modelSearch
+            // Set table id để phân biệt giữa các bảng dữ liệu khác nhau
             params.setTableId("building");
             // Xử lý thông tin phân trang từ request
             DisplayTagUtils.of(request, params);
@@ -55,7 +57,7 @@ public class BuildingController {
             int totalBuildings = buildingService.countTotalBuilding(params);
             params.setTotalItems(totalBuildings);
 
-
+            // Kiểm tra thông tin phân trang sau khi lấy dữ liệu để check lỗi và debug
             System.out.println("Total items: " + params.getTotalItems());
             System.out.println("Page size: " + params.getMaxPageItems());
             System.out.println("Total pages: " + params.getTotalPages());
