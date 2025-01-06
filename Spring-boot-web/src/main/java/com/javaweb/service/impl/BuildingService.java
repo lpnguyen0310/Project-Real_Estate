@@ -18,12 +18,15 @@ import com.javaweb.repository.UserRepository;
 import com.javaweb.repository.custom.impl.AssignmentRepositoryImpl;
 import com.javaweb.repository.custom.impl.RentAreaRepositoryImpl;
 import com.javaweb.service.IBuildingService;
+import com.javaweb.utils.UploadFileUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -57,6 +60,9 @@ public class BuildingService implements IBuildingService {
 
     @Autowired
     private AssignmentRepositoryImpl assignmentRepository;
+
+    @Autowired
+    private UploadFileUtils uploadFileUtils;
     @Override
     public List<BuildingResponseDTO> findAll(BuildingSearchRequest searchParams) {
         BuildingSearchBuilder builder = buildingSearchBuilder.toBuildingSearchBuilder(searchParams);
@@ -90,11 +96,13 @@ public class BuildingService implements IBuildingService {
         if (buildingDTO.getId() != null) {
             BuildingEntity existingEntity = buildingRepository.findById(buildingDTO.getId())
                     .orElseThrow(() -> new RuntimeException("Building not found"));
-
+            // Ảnh
+            buildingEntity.setAvatar(existingEntity.getAvatar());
             // Xóa các RentAreaEntity cũ
             rentAreaRepositoryImpl.deleteOneRentAreaByBuildingId(buildingDTO.getId());
         }
-
+        // Lưu ảnh
+        saveThumbnail(buildingDTO, buildingEntity);
         // Lưu Entity vào cơ sở dữ liệu
         BuildingEntity savedEntity = buildingRepository.save(buildingEntity);
         // Lưu RentAreaEntity nếu có
@@ -174,6 +182,22 @@ public class BuildingService implements IBuildingService {
             return dto;
         }).collect(Collectors.toList());
     }
+
+    private void saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity) {
+        String path = "/building/" + buildingDTO.getImageName();
+        if (null != buildingDTO.getImageBase64()) {
+            if (null != buildingEntity.getAvatar()) {
+                if (!path.equals(buildingEntity.getAvatar())) {
+                    File file = new File("C://home/office" + buildingEntity.getAvatar());
+                    file.delete();
+                }
+            }
+            byte[] bytes = Base64.decodeBase64(buildingDTO.getImageBase64().getBytes());
+            uploadFileUtils.writeOrUpdate(path, bytes);
+            buildingEntity.setAvatar(path);
+        }
+    }
+
 
 }
 
