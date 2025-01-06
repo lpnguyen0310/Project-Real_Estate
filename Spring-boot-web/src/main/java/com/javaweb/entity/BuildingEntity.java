@@ -131,34 +131,34 @@ public class BuildingEntity extends BaseEntity{
     @Column(name = "type")
     private String typeCode;
 
-//    @ManyToMany
-//    @JoinTable(
-//            name = "assignmentbuilding", // Tên bảng liên kết
-//            joinColumns = @JoinColumn(name = "buildingid"), // Cột khóa ngoại từ bảng Building
-//            inverseJoinColumns = @JoinColumn(name = "staffid") // Cột khóa ngoại từ bảng User
-//    )
-//    private List<UserEntity> assignedStaffs;
+    @ManyToMany
+    @JoinTable(
+            name = "assignmentbuilding", // Tên bảng liên kết
+            joinColumns = @JoinColumn(name = "buildingid"), // Cột khóa ngoại từ bảng Building
+            inverseJoinColumns = @JoinColumn(name = "staffid") // Cột khóa ngoại từ bảng User
+    )
+    private List<UserEntity> assignedStaffs;
 
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    private List<AssignmentBuildingEntity> assignments = new ArrayList<>();
+//    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
+//    private List<AssignmentBuildingEntity> assignments = new ArrayList<>();
 
-    public List<AssignmentBuildingEntity> getAssignments() {
-        return assignments;
-    }
-
-    public void setAssignments(List<AssignmentBuildingEntity> assignments) {
-        this.assignments = assignments;
-    }
-
-
-
-    //    public List<UserEntity> getAssignedStaffs() {
-//        return assignedStaffs;
+//    public List<AssignmentBuildingEntity> getAssignments() {
+//        return assignments;
 //    }
 //
-//    public void setAssignedStaffs(List<UserEntity> assignedStaffs) {
-//        this.assignedStaffs = assignedStaffs;
+//    public void setAssignments(List<AssignmentBuildingEntity> assignments) {
+//        this.assignments = assignments;
 //    }
+
+
+
+        public List<UserEntity> getAssignedStaffs() {
+        return assignedStaffs;
+    }
+
+    public void setAssignedStaffs(List<UserEntity> assignedStaffs) {
+        this.assignedStaffs = assignedStaffs;
+    }
 
     public String getTypeCode() {
         return typeCode;
