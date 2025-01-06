@@ -30,7 +30,7 @@ public class BuildingEntity extends BaseEntity{
     private String district;
 
 
-    @OneToMany(mappedBy = "buildingEntity",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "buildingEntity", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<RentAreaEntity> rentAreas = new ArrayList<>();
 
 
@@ -139,7 +139,7 @@ public class BuildingEntity extends BaseEntity{
 //    )
 //    private List<UserEntity> assignedStaffs;
 
-    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
     private List<AssignmentBuildingEntity> assignments = new ArrayList<>();
 
     public List<AssignmentBuildingEntity> getAssignments() {
