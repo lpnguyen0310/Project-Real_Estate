@@ -1,10 +1,12 @@
 package com.javaweb.builder;
 
 
+import com.javaweb.model.dto.AbstractDTO;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildingSearchBuilder {
+public class BuildingSearchBuilder extends AbstractDTO {
     private String name;
     private Long floorArea;
     private String district;

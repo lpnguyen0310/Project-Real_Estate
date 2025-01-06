@@ -4,6 +4,7 @@ import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.repository.custom.BuildingRepositoryCustom;
 import com.javaweb.utils.DataUtil;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -96,13 +97,18 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
     }
 
     @Override
-    public List<BuildingEntity> findAll(BuildingSearchBuilder builder) {
+    public List<BuildingEntity> findAll(BuildingSearchBuilder builder, Pageable pageable) {
         StringBuilder sql = new StringBuilder("select b.* from building b \r\n");
         sqlJoin(builder, sql);
         StringBuilder where = new StringBuilder(" where 1 = 1");
         sqlWhereNormal(builder, where);
         sqlWhereSpecial(builder, where);
         sql.append(where).append(" group by b.id \r\n");
+
+        // Áp dụng LIMIT và OFFSET để phân trang
+        sql.append(" limit ").append(pageable.getPageSize()).append("\n")
+                .append(" offset ").append(pageable.getOffset());
+
         Query query = entityManager.createNativeQuery(sql.toString(), BuildingEntity.class);
         return query.getResultList();
     }
@@ -121,6 +127,18 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
         Query query = entityManager.createNativeQuery(sql,BuildingEntity.class);
         query.setParameter("id", id);
         query.executeUpdate();
+    }
+
+    @Override
+    public int countTotalBuildings( BuildingSearchBuilder builder) {
+        StringBuilder sql = new StringBuilder("select count(*) from building b \r\n");
+        sqlJoin(builder, sql);
+        StringBuilder where = new StringBuilder(" where 1 = 1");
+        sqlWhereNormal(builder, where);
+        sqlWhereSpecial(builder, where);
+        sql.append(where);
+        Query query = entityManager.createNativeQuery(sql.toString());
+        return ((Number) query.getSingleResult()).intValue();
     }
 
 

@@ -23,6 +23,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -64,9 +65,9 @@ public class BuildingService implements IBuildingService {
     @Autowired
     private UploadFileUtils uploadFileUtils;
     @Override
-    public List<BuildingResponseDTO> findAll(BuildingSearchRequest searchParams) {
+    public List<BuildingResponseDTO> findAll(BuildingSearchRequest searchParams, Pageable pageable) {
         BuildingSearchBuilder builder = buildingSearchBuilder.toBuildingSearchBuilder(searchParams);
-        List<BuildingEntity> buildingEntities = buildingRepository.findAll(builder);
+        List<BuildingEntity> buildingEntities = buildingRepository.findAll(builder, pageable);
         List<BuildingResponseDTO> results = new ArrayList<>();
         for (BuildingEntity item : buildingEntities) {
             BuildingResponseDTO buildingResponseDTO = buildingConverter.toBuildingResponseDTO(item);
@@ -181,6 +182,12 @@ public class BuildingService implements IBuildingService {
             dto.setChecked(assignedStaffIds.contains(staff.getId()) ? "checked" : ""); // Kiểm tra nếu đã gán
             return dto;
         }).collect(Collectors.toList());
+    }
+
+    @Override
+    public int countTotalBuilding( BuildingSearchRequest params) {
+        BuildingSearchBuilder builder = buildingSearchBuilder.toBuildingSearchBuilder(params);
+        return buildingRepository.countTotalBuildings(builder);
     }
 
     private void saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity) {
