@@ -270,11 +270,12 @@
                         <!-- Hiển thị danh sách tòa nhà -->
                         <display:table name="${modelSearch.listResult}" cellspacing="0" cellpadding="0"
                                        requestURI="/admin/building-list" partialList="true" sort="external"
-                                       size="${modelSearch.totalItems}" defaultsort="3" defaultorder="ascending"
+                                       size="${modelSearch.totalItems}" defaultsort="2" defaultorder="ascending"
                                        id="building-list" pagesize="${modelSearch.maxPageItems}"
                                        export="false"
                                        class="table table-fcv-ace table-striped table-bordered table-hover dataTable no-footer"
-                                       style="margin: 3em 0 1.5em;">
+                                       style="margin: 3em 0 1.5em;"
+                                       uid="building">
 
                             <!-- Cột hiển thị checkbox -->
                             <display:column title="Chọn" class="center">

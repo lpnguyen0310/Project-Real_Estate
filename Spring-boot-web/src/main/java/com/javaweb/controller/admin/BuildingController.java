@@ -34,7 +34,7 @@ public class BuildingController {
     @GetMapping("admin/building-list")
     public ModelAndView getBuildingPage(@ModelAttribute("modelSearch") BuildingSearchRequest params, HttpServletRequest request){
             ModelAndView mav = new ModelAndView("admin/building/list");
-            params.setTableId("building-list");
+            params.setTableId("building");
             // Xử lý thông tin phân trang từ request
             DisplayTagUtils.of(request, params);
             System.out.println("Table ID: " + params.getTableId());
@@ -63,9 +63,10 @@ public class BuildingController {
             System.out.println("Pageable: " + pageable.getPageNumber() + ", Size: " + pageable.getPageSize());
             System.out.println("Current Page: " + params.getPage());
             System.out.println("Max Items per Page: " + params.getMaxPageItems());
+
             // Truyền dữ liệu vào view
             mav.addObject("modelSearch", params);
-
+            mav.addObject("buildings", buildings);
             return mav;
     }
 

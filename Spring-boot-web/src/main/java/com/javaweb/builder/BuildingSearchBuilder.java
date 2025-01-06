@@ -6,7 +6,7 @@ import com.javaweb.model.dto.AbstractDTO;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BuildingSearchBuilder extends AbstractDTO {
+public class BuildingSearchBuilder {
     private String name;
     private Long floorArea;
     private String district;
