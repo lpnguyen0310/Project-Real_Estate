@@ -123,28 +123,23 @@ public class BuildingService implements IBuildingService {
 //
 //    }
 
+    // Cách 2: Dùng CascadeType trong Entity
     @Override
     public BuildingDTO addBuilding(BuildingDTO buildingDTO) {
-        // Initialize the building entity
+        //
         BuildingEntity buildingEntity;
 
-        // Check if updating an existing building
         if (buildingDTO.getId() != null) {
-            // Retrieve the existing entity
             buildingEntity = buildingRepository.findById(buildingDTO.getId())
                     .orElseThrow(() -> new RuntimeException("Building not found"));
 
-            // Retain the avatar
             buildingEntity.setAvatar(buildingEntity.getAvatar());
 
-            // Clear existing RentAreas (orphanRemoval will take care of deletion)
             buildingEntity.getRentAreas().clear();
         } else {
-            // Create a new building entity
             buildingEntity = buildingConverter.toBuildingEntity(buildingDTO);
         }
 
-        // Handle RentAreas (if any) from the DTO
         if (buildingDTO.getRentArea() != null && !buildingDTO.getRentArea().isEmpty()) {
             String[] rentAreaValues = buildingDTO.getRentArea().split(",");
             for (String value : rentAreaValues) {
@@ -152,7 +147,7 @@ public class BuildingService implements IBuildingService {
                     Integer rentAreaValue = Integer.parseInt(value.trim());
                     RentAreaEntity rentAreaEntity = new RentAreaEntity();
                     rentAreaEntity.setValue(Long.valueOf(rentAreaValue));
-                    rentAreaEntity.setBuildingEntity(buildingEntity); // Link the rent area to the building
+                    rentAreaEntity.setBuildingEntity(buildingEntity);
                     buildingEntity.getRentAreas().add(rentAreaEntity);
                 } catch (NumberFormatException e) {
                     throw new RuntimeException("Invalid rent area value: " + value);
@@ -162,10 +157,10 @@ public class BuildingService implements IBuildingService {
         // lưu ảnh
         saveThumbnail(buildingDTO, buildingEntity);
 
-        // Save the entity and return the DTO
+        // Lưu vào cơ sở dữ liệu
         BuildingEntity savedEntity = buildingRepository.save(buildingEntity);
 
-        // Convert to DTO and return
+        // Chuyển đổi ngược lại từ Entity sang DTO để trả về
         return buildingConverter.toBuildingDTO(savedEntity);
     }
 
