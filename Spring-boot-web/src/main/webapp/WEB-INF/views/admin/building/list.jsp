@@ -281,7 +281,7 @@
                             <display:column title="Chọn" class="center">
                                 <input type="checkbox" value="${building.id}">
                             </display:column>
-                            
+
                             <!-- Các cột hiển thị thông tin -->
                             <display:column property="name" title="Tên tòa nhà" />
                             <display:column property="address" title="Địa chỉ" />

@@ -277,19 +277,37 @@
                                     <form:input path="note" class="form-control" id="note" />
                                 </div>
                             </div>
+<%--                            <div class="form-group">--%>
+<%--                                <label class="col-xs-3 control-label">Hình đại diện</label>--%>
+
+<%--                                <div class="col-xs-9">--%>
+<%--                                    <input class="col-xs-3 no-padding-right" type="file" id="uploadImage"/>--%>
+<%--                                    <c:if test="${not empty building.avatar}">--%>
+<%--                                        <c:set var="imagePath" value="/repository${building.avatar}"/>--%>
+<%--                                        <img src="${imagePath}" id="viewImage" width="300px" height="300px" style="margin-top: 50px">--%>
+<%--                                    </c:if>--%>
+<%--                                    <c:if test="${empty building.avatar}">--%>
+<%--                                        <img src="/admin/image/default.png" id="viewImage" width="300px" height="300px">--%>
+<%--                                    </c:if>--%>
+<%--                                </div>--%>
+
+<%--                            </div>--%>
                             <div class="form-group">
                                 <label class="col-xs-3 control-label">Hình đại diện</label>
-                                <input class="col-xs-3 no-padding-right" type="file" id="uploadImage"/>
                                 <div class="col-xs-9">
-                                    <c:if test="${not empty building.avatar}">
-                                        <c:set var="imagePath" value="/repository${building.avatar}"/>
-                                        <img src="${imagePath}" id="viewImage" width="300px" height="300px" style="margin-top: 50px">
-                                    </c:if>
-                                    <c:if test="${empty building.avatar}">
-                                        <img src="/admin/image/default.png" id="viewImage" width="300px" height="300px">
-                                    </c:if>
+                                    <input type="file" id="uploadImage" style="width: auto;" />
+                                    <div style="margin-top: 15px;">
+                                        <c:if test="${not empty building.avatar}">
+                                            <c:set var="imagePath" value="/repository${building.avatar}" />
+                                            <img src="${imagePath}" id="viewImage" class="img-responsive" style="max-width: 300px; height: auto; margin-top: 15px;">
+                                        </c:if>
+                                        <c:if test="${empty building.avatar}">
+                                            <img src="/admin/image/default.png" id="viewImage" class="img-responsive" style="max-width: 300px; height: auto; margin-top: 15px;">
+                                        </c:if>
+                                    </div>
                                 </div>
                             </div>
+
 
                             <!-- Button -->
                             <div class="form-group">
