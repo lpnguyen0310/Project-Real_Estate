@@ -290,6 +290,7 @@
                             <display:column property="managerPhone" title="SĐT quản lý" />
                             <display:column property="floorArea" title="Diện tích sàn" />
                             <display:column property="rentArea" title="Diện tích thuê" />
+                            <display:column property="structure" title="Diện trích trống" />
                             <display:column property="rentPrice" title="Giá thuê" />
                             <display:column property="serviceFee" title="Phí dịch vụ" />
                             <display:column property="brokerageFee" title="Phí môi giới" />
