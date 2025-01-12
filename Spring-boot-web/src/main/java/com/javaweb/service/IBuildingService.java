@@ -18,7 +18,7 @@ public interface IBuildingService {
     BuildingDTO findBuildingById(Long id);
     // Lưu building
 
-    BuildingDTO addBuilding(BuildingDTO buildingDTO);
+    BuildingDTO addOrUpdateBuilding(BuildingDTO buildingDTO);
 
     // Xóa building
 

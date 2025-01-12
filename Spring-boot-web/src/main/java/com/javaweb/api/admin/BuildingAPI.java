@@ -29,7 +29,7 @@ public class BuildingAPI {
     @PostMapping("/api/building")
     public ResponseEntity<?> createOrUpdateBuilding(@Valid @RequestBody BuildingDTO buildingDTO, BindingResult bindingResult) {
         try {
-
+            // Kiểm tra lỗi validate từ phía client
             if (bindingResult.hasErrors()) {
                 List<String> errors = bindingResult.getFieldErrors()
                         .stream()
@@ -37,23 +37,20 @@ public class BuildingAPI {
                         .collect(Collectors.toList());
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
             }
-            // Gọi service để xử lý thêm tòa nhà
-          if (buildingDTO.getId()!= null)
-          {
-                BuildingDTO building = buildingService.addBuilding(buildingDTO);
-                return ResponseEntity.ok(building);
-            }
-                BuildingDTO savedBuilding = buildingService.addBuilding(buildingDTO);
-                if (savedBuilding == null) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Add building failed");
-          }
 
+            // Gọi service để thêm mới hoặc cập nhật tòa nhà
+            BuildingDTO savedBuilding = buildingService.addOrUpdateBuilding(buildingDTO);
+
+            // Kiểm tra kết quả xử lý
+            if (savedBuilding == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Operation failed. Unable to save building.");
+            }
 
             // Trả về kết quả thành công
-            return ResponseEntity.status(HttpStatus.CREATED).body(savedBuilding);
+            return ResponseEntity.ok(savedBuilding);
         } catch (Exception e) {
-            // Xử lý lỗi và trả về thông báo lỗi
-            return ResponseEntity.badRequest().body(e.getMessage());
+            // Xử lý ngoại lệ và trả về thông báo lỗi
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
