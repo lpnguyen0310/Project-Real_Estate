@@ -1,34 +1,54 @@
-package com.javaweb.model.dto;
+package com.javaweb.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
+import com.javaweb.enums.Status;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
 
-public class CustomerDTO extends AbstractDTO{
+@Entity
+@Table(name = "customer")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class CustomerEntity  extends BaseEntity{
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
+
+
+    @Column(name = "fullname")
+    @NotBlank(message = "Vui lòng nhập họ tên")
     private String name;
 
+    @Column(name = "phone")
+    @NotBlank(message = "Vui lòng nhập số điện thoại")
     private String phone;
-
+    @Column(name = "email")
     private String email;
-
+    @Column(name = "companyname")
     private String companyName;
-
+    @Column(name = "demand")
     private String demand;
-
+    @Column(name = "status")
     private String status;
-
+    @Column(name = "is_active", columnDefinition = "int default 1")
     private int is_active;
 
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }

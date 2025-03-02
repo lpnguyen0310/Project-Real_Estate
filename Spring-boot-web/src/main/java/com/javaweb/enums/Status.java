@@ -15,11 +15,15 @@ public enum Status {
         this.statusName = statusName;
     }
 
-    public static Map<String,String> status(){
+    public static Map<String,String> getStatus(){
         Map<String,String> listStatus = new LinkedHashMap<>();
         for(Status item : Status.values()){
             listStatus.put(item.toString() , item.statusName);
         }
         return listStatus;
+    }
+
+    public String getStatusName() {
+        return statusName;
     }
 }

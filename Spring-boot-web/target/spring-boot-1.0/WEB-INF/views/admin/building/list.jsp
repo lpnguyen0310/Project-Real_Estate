@@ -232,7 +232,7 @@
 
                                                 <div class="col-xs-6">
 
-                                                    <button class="btn btn-primary" id="btnSearch">
+                                                        <button class="btn btn-primary" id="btnSearch">
                                                         <i class="ace-icon glyphicon glyphicon-search"></i>
                                                         Tìm Kiếm</button>
                                                 </div>
@@ -369,24 +369,6 @@
         loadStaff(id);
     }
 
-
-    // checked = "checked"
-    // nhũng building không được giao thì checked= ""
-    // function loadStaff(id){
-    //     $.ajax({
-    //         url: '/api/building/' + id + '/staffs',
-    //         type: 'GET',
-    //         // data: JSON.stringify(data), // Convert từ Object sang JSON
-    //         // contentType: 'application/json', // Kiểu dữ liệu gửi đi là JSON
-    //         dataType: "JSON",
-    //         success: function (response) {
-    //             console.log('Success');
-    //         },
-    //         error: function (response) {
-    //             console.log('Fail');
-    //         }
-    //     })
-    // }
     function loadStaff(buildingId) {
         $('#buildingId').val(buildingId); // Gán ID tòa nhà vào input ẩn
 
