@@ -10,4 +10,7 @@ public interface UserRepositoryCustom {
 	List<UserEntity> getAllUsers(Pageable pageable);
 	int countTotalItem();
 
+	boolean checkExistUser(String userName);
+
+
 }

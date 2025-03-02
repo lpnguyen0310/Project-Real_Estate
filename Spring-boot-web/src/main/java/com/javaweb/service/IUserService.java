@@ -27,4 +27,8 @@ public interface IUserService {
     int countTotalItems();
 
     Map<Long,String> getListStaff();
+
+    boolean checkExistUser(String userName);
+
+    UserDTO register(UserDTO userDTO) throws MyException;
 }

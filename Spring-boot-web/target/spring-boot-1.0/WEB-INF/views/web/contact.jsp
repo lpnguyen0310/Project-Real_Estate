@@ -269,7 +269,7 @@
         });
 
         if(json['name'] === '' || json['name'].length < 5) {
-            $('#name').after('<span class="error-message">Vui lòng nhập họ và tên</span>');
+            $('#name').after('<span class="error-message"  style="color: red">Vui lòng nhập họ và tên</span>');
             isValid = false;
         }
         if (json['phone'] === '' || isNaN(json['phone']) || json['phone'].length < 10) {

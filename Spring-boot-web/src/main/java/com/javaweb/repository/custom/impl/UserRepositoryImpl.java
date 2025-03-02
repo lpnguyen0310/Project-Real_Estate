@@ -43,6 +43,17 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 		return query.getResultList().size();
 	}
 
+
+	// Check if user exists
+	@Override
+	public boolean checkExistUser(String userName) {
+		String sql ="SELECT * COUNT(*) FROM user u WHERE u.username = :userName";
+		Query query = entityManager.createNativeQuery(sql);
+		query.setParameter("userName", userName);
+		return (int) query.getSingleResult() > 0;
+	}
+
+
 	private String buildQueryFilter() {
 		String sql = "SELECT * FROM user u WHERE u.status = 1";
 		return sql;

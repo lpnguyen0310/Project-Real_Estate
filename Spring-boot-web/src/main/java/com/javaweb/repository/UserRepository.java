@@ -20,4 +20,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> , UserRe
     List<UserEntity> findByIdIn(List<Long> id);
 
     List<UserEntity> findByStatusAndRoles_Code(Long status, String roleCode);
+
+    //boolean checkExistUser(String userName);
 }

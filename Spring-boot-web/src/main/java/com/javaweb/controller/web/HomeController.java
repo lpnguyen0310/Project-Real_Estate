@@ -38,6 +38,12 @@ public class HomeController {
         return mav;
     }
 
+    @GetMapping(value="/dang-ky")
+    public ModelAndView register(){
+        ModelAndView mav = new ModelAndView("/register");
+        return mav;
+    }
+
     @GetMapping(value="/tin-tuc")
     public ModelAndView news(){
         ModelAndView mav = new ModelAndView("/web/news");

@@ -6,8 +6,13 @@ import com.javaweb.model.dto.PasswordDTO;
 import com.javaweb.model.dto.UserDTO;
 import com.javaweb.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
@@ -53,5 +58,16 @@ public class UserAPI {
             userService.delete(idList);
         }
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> register(@Valid @RequestBody UserDTO newUser) {
+        try {
+            return ResponseEntity.ok(userService.register(newUser));
+        } catch (MyException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Lỗi hệ thống: " + e.getMessage());
+        }
     }
 }

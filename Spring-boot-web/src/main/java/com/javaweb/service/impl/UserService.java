@@ -94,6 +94,25 @@ public class UserService implements IUserService {
         return staffMap;
     }
 
+    @Override
+    public boolean checkExistUser(String userName) {
+        return false;
+    }
+
+
+    @Override
+    public UserDTO register(UserDTO userDTO) throws MyException {
+        if (userRepository.findOneByUserName(userDTO.getUserName()) != null) {
+            throw new MyException("Tên đăng nhập đã tồn tại");
+        }
+        UserEntity userEntity = userConverter.convertToEntity(userDTO);
+        RoleEntity role = roleRepository.findOneByCode("USER");
+        userEntity.setRoles(Stream.of(role).collect(Collectors.toList()));
+        userEntity.setStatus(1);
+        userEntity.setPassword(passwordEncoder.encode(SystemConstant.PASSWORD_DEFAULT));
+        return userConverter.convertToDto(userRepository.save(userEntity));
+    }
+
 
     @Override
     public int getTotalItems(String searchValue) {
