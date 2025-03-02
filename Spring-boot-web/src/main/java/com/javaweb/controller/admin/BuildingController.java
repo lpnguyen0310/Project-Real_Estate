@@ -2,6 +2,7 @@ package com.javaweb.controller.admin;
 
 
 
+import com.javaweb.constant.SystemConstant;
 import com.javaweb.entity.BuildingEntity;
 import com.javaweb.enums.District;
 import com.javaweb.enums.TypeCode;
@@ -9,6 +10,7 @@ import com.javaweb.model.dto.BuildingDTO;
 import com.javaweb.model.dto.BuildingResponseDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
 import com.javaweb.model.response.StaffResponseDTO;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.IBuildingService;
 import com.javaweb.service.impl.UserService;
 import com.javaweb.utils.DisplayTagUtils;
@@ -39,14 +41,18 @@ public class BuildingController {
             params.setTableId("building");
             // Xử lý thông tin phân trang từ request
             DisplayTagUtils.of(request, params);
-            System.out.println("Table ID: " + params.getTableId());
-            System.out.println("Page: " + params.getPage());
             // Lấy danh sách nhân viên và các thông tin liên quan
             Map<Long, String> staffMap = userService.getListStaff();
             mav.addObject("staffMap", staffMap);
             mav.addObject("districts", District.getDistrict());
             mav.addObject("typeCodes", TypeCode.type());
 
+            if(SecurityUtils.getAuthorities().contains(SystemConstant.STAFF_ROLE)){
+                // Lấy id của nhân viên đăng nhập
+                Long staffId = SecurityUtils.getPrincipal().getId();
+                params.setStaffId(staffId);
+
+            }
             // Áp dụng phân trang
             Pageable pageable = PageRequest.of(params.getPage() - 1, params.getMaxPageItems());
 
@@ -56,15 +62,6 @@ public class BuildingController {
             // Đếm tổng số lượng tòa nhà dựa trên điều kiện tìm kiếm
             int totalBuildings = buildingService.countTotalBuilding(params);
             params.setTotalItems(totalBuildings);
-
-            // Kiểm tra thông tin phân trang sau khi lấy dữ liệu để check lỗi và debug
-            System.out.println("Total items: " + params.getTotalItems());
-            System.out.println("Page size: " + params.getMaxPageItems());
-            System.out.println("Total pages: " + params.getTotalPages());
-
-            System.out.println("Pageable: " + pageable.getPageNumber() + ", Size: " + pageable.getPageSize());
-            System.out.println("Current Page: " + params.getPage());
-            System.out.println("Max Items per Page: " + params.getMaxPageItems());
 
             // Truyền dữ liệu vào view
             mav.addObject("modelSearch", params);
@@ -85,6 +82,13 @@ public class BuildingController {
         ModelAndView mav = new ModelAndView("admin/building/edit");
         // Gọi service để lấy thông tin tòa nhà theo id và truyền vào view
         // building entity ==> building dto
+        // Nếu là Staff chỉ xem được tòa nhà miình quản lý
+        if(SecurityUtils.getAuthorities().contains(SystemConstant.STAFF_ROLE)){
+            Long staffId = SecurityUtils.getPrincipal().getId();
+            if(!buildingService.findBuildingByIdAndStaffId(id, staffId)){
+                return new ModelAndView("redirect:/error/403");
+            }
+        }
         BuildingDTO buildingDTO = buildingService.findBuildingById(id);
         mav.addObject("districts", District.getDistrict());
         mav.addObject("typeCodes", TypeCode.type());

@@ -195,6 +195,16 @@ public class BuildingService implements IBuildingService {
         return buildingRepository.countTotalBuildings(builder);
     }
 
+    @Override
+    public boolean findBuildingByIdAndStaffId(Long buildingId, Long staffId) {
+        BuildingEntity buildingEntity = buildingRepository.findById(buildingId).orElse(null);
+        UserEntity userEntity = userRepository.findById(staffId).orElse(null);
+        if (buildingEntity == null || userEntity == null) {
+            return false;
+        }
+        return buildingEntity.getAssignedStaffs().contains(userEntity);
+    }
+
     private void saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity) {
         String path = "/building/" + buildingDTO.getImageName();
         if (null != buildingDTO.getImageBase64()) {

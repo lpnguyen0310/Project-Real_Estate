@@ -30,5 +30,6 @@ public interface IBuildingService {
 
     int countTotalBuilding(BuildingSearchRequest params);
 
+    boolean findBuildingByIdAndStaffId(Long buildingId, Long staffId);
 
 }

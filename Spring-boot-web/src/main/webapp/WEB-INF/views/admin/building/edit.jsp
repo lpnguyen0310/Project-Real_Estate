@@ -465,7 +465,7 @@
             }
         })
 
-        function AddBuilding(   data){
+        function AddBuilding(data){
             // Kiểm tra id có tồn tại hay không
             const isUpdate = data.id !== undefined && data.id !== null && data.id !== "";
             // Nếu có id thì là update, không có id thì là thêm mới

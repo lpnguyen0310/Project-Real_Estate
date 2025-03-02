@@ -196,23 +196,18 @@
     <%--                                                <input type="text" class="form-control" name="managerPhoneNumber" value="${modelSearch.managerPhone}">--%>
                                                     <form:input path="managerPhone" class="form-control" />
                                                 </div>
-                                                <div class="col-xs-2">
-                                                    <label>
-                                                        Chọn Nhân Viên
-                                                    </label>
-                                                    <form:select path="staffId" class="form-control">
-                                                        <option value=""> -- Chọn Nhân Viên --</option>
-                                                        <form:options items="${staffMap}" ></form:options>
-                                                    </form:select>
-    <%--                                                <select class="form-control" name="staffId">--%>
-    <%--                                                    <option value="">-- Chọn Nhân Viên --</option>--%>
-    <%--                                                    <option value="1">Lê Phước Nguyên</option>--%>
-    <%--                                                    <option value="2">Lê Phước A</option>--%>
-    <%--                                                    <option value="3">Lê Phước B</option>--%>
-    <%--                                                    <option value="4">Lê Phước C</option>--%>
+                                                <security:authorize access="hasRole('MANAGER')">
+                                                    <div class="col-xs-2">
+                                                        <label>
+                                                            Chọn Nhân Viên
+                                                        </label>
+                                                        <form:select path="staffId" class="form-control">
+                                                            <option value=""> -- Chọn Nhân Viên --</option>
+                                                            <form:options items="${staffMap}" ></form:options>
+                                                        </form:select>
+                                                    </div>
+                                                </security:authorize>
 
-    <%--                                                </select>--%>
-                                                </div>
                                             </div>
 
                                             <!-- Hàng 6 -->
@@ -248,16 +243,20 @@
 
                                 </div>
                             </div>
-                            <div class="pull-right" >
-                                <a href="/admin/building-edit">
-                                    <button class="btn btn-app btn-primary btn-sm" title="Thêm toà nhà">
-                                        <i class="ace-icon fa fa-home"></i>
-                                    </button>
-                                </a>
-                                <button class="btn btn-app btn-danger btn-sm" title="Xóa toà nhà" id="btn-deleteBuilding">
-                                    <i class="ace-icon fa fa-trash-o bigger-200"></i>
-                                </button>
-                            </div>
+
+                               <div class="pull-right" >
+                                   <a href="/admin/building-edit">
+                                       <button class="btn btn-app btn-primary btn-sm" title="Thêm toà nhà">
+                                           <i class="ace-icon fa fa-home"></i>
+                                       </button>
+                                   </a>
+                                   <security:authorize access="hasRole('MANAGER')">
+                                       <button class="btn btn-app btn-danger btn-sm" title="Xóa toà nhà" id="btn-deleteBuilding">
+                                           <i class="ace-icon fa fa-trash-o bigger-200"></i>
+                                       </button>
+                                   </security:authorize>
+                               </div>
+
 
                         </div>
                     </div>
@@ -298,15 +297,19 @@
                             <!-- Cột hành động -->
                             <display:column title="Hành động">
                                 <div class="hidden-sm hidden-xs btn-group">
-                                    <button class="btn btn-xs btn-success" onclick="assignmentBuilding(${building.id})" title="Giao tòa nhà">
-                                        <i class="ace-icon fa fa-check bigger-120"></i>
-                                    </button>
+                                   <security:authorize access="hasRole('MANAGER')">
+                                       <button class="btn btn-xs btn-success" onclick="assignmentBuilding(${building.id})" title="Giao tòa nhà">
+                                           <i class="ace-icon fa fa-check bigger-120"></i>
+                                       </button>
+                                   </security:authorize>
                                     <a class="btn btn-xs btn-info" href="/admin/building-edit-${building.id}">
                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                     </a>
-                                    <button class="btn btn-xs btn-danger" onclick="deleteBuilding(${building.id})" title="Xóa tòa nhà">
-                                        <i class="ace-icon fa fa-trash-o bigger-120"></i>
-                                    </button>
+                                    <security:authorize access="hasRole('MANAGER')">
+                                        <button class="btn btn-xs btn-danger" onclick="deleteBuilding(${building.id})" title="Xóa tòa nhà">
+                                            <i class="ace-icon fa fa-trash-o bigger-120"></i>
+                                        </button>
+                                    </security:authorize>
                                 </div>
                             </display:column>
                         </display:table>

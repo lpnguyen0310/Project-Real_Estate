@@ -16,4 +16,5 @@ public interface BuildingRepositoryCustom {
     void deleteBuildingById(List<Long> id);
 
     int countTotalBuildings( BuildingSearchBuilder builder);
+
 }

@@ -54,6 +54,10 @@ public class UserController {
 	@RequestMapping(value = "/admin/profile-{username}", method = RequestMethod.GET)
 	public ModelAndView updateProfile(@PathVariable("username") String username, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("admin/user/profile");
+		// Nếu username truyền vào khác với username của user đang đăng nhập thì không cho sửa
+		if (!username.equals(SecurityUtils.getPrincipal().getUsername())) {
+			return new ModelAndView("redirect:/admin/profile-" + SecurityUtils.getPrincipal().getUsername());
+		}
 		UserDTO model = userService.findOneByUserName(username);
 		initMessageResponse(mav, request);
 		model.setRoleDTOs(roleService.getRoles());

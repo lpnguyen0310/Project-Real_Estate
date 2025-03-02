@@ -116,7 +116,7 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <h2 class="title-lienhe"><strong>Liên hệ với chúng tôi</strong></h2>
-                    <form>
+                    <form id="contact-us">
                         <div class="row">
                             <div class="col">
                                 <input type="text" class="form-control" placeholder="Họ và tên">
