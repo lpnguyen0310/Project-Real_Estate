@@ -34,7 +34,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 
     @Override
     public List<CustomerEntity> findAllCustomer(CustomerSearchBuilder builder, Pageable pageable) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM customer WHERE 1=1");
+        StringBuilder sql = new StringBuilder("SELECT * FROM customer WHERE is_active = '1'");
         sqlWhereNormal(builder, sql);
         sql.append(" LIMIT ").append(pageable.getPageSize())
                 .append(" OFFSET ").append(pageable.getOffset());
@@ -45,10 +45,26 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 
     @Override
     public int countTotalBuildings(CustomerSearchBuilder builder) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM customer WHERE 1=1");
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM customer WHERE is_active = '1'");
         sqlWhereNormal(builder, sql); // Tách điều kiện WHERE
         Query query = entityManager.createNativeQuery(sql.toString());
         return ((Number) query.getSingleResult()).intValue();
+    }
+
+    @Override
+    public void deleteCustomer(List<Long> id) {
+        String sql = "UPDATE customer SET is_active = '0' WHERE id in (:id)";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
+
+    @Override
+    public CustomerEntity findCustomerById(Long id) {
+        String sql = "SELECT * FROM customer WHERE id = :id";
+        Query query = entityManager.createNativeQuery(sql, CustomerEntity.class);
+        query.setParameter("id", id);
+        return (CustomerEntity) query.getSingleResult();
     }
 
     // Code here

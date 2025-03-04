@@ -16,4 +16,8 @@ public interface ICustormerService {
 
     int countTotalBuilding(CustomerSearchRequest params);
 
+
+    // Delete customer
+    void deleteListCustomer(List<Long> ids);
+
 }

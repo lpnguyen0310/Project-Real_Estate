@@ -20,7 +20,7 @@ public class CustomerDTO extends AbstractDTO{
 
     private String status;
 
-    private int is_active;
+    private int is_active = 1;
 
 
     @Override

@@ -13,4 +13,11 @@ public interface CustomerRepositoryCustom {
     List<CustomerEntity> findAllCustomer(CustomerSearchBuilder builder, Pageable pageable);
 
     int countTotalBuildings( CustomerSearchBuilder builder);
+
+
+    // Delete customer
+   void deleteCustomer(List<Long> ids);
+
+   CustomerEntity findCustomerById(Long id);
+
 }

@@ -1,15 +1,14 @@
 package com.javaweb.api.admin;
 
 import com.javaweb.model.dto.CustomerDTO;
+import com.javaweb.model.response.ResponseDTO;
 import com.javaweb.service.ICustormerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -47,5 +46,21 @@ public class CustomerAPI {
             // Xử lý ngoại lệ và trả về thông báo lỗi
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @DeleteMapping("/api/customers/{ids}")
+    public ResponseEntity<?> deleteCustomer(@PathVariable List<Long> ids){
+        if(ids.size() == 0){
+            ResponseDTO messsage = new ResponseDTO();
+            messsage.setMessage("Không có khách hàng nào được chọn");
+            return ResponseEntity.badRequest().body(messsage);
+        }
+        else {
+            custormerService.deleteListCustomer(ids);
+            ResponseDTO messsage = new ResponseDTO();
+            messsage.setMessage("Xóa thành công");
+            return ResponseEntity.ok(messsage);
+        }
+
     }
 }

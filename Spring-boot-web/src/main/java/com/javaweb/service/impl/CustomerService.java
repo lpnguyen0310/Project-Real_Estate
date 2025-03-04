@@ -62,4 +62,17 @@ public class CustomerService implements ICustormerService {
         CustomerSearchBuilder builder = customerSearchBuilderConverter.toCustomerSearchBuilder(params);
         return customerRepository.countTotalBuildings(builder);
     }
+
+    @Override
+    public void deleteListCustomer(List<Long> ids) {
+        if(ids == null || ids.isEmpty()){
+            throw new RuntimeException("List id is empty");
+        }
+
+        List<CustomerEntity> customerEntities = customerRepository.findAllById(ids);
+        // Xu l khi noi ban với nhau
+        customerRepository.deleteCustomer(ids);
+    }
+
+
 }

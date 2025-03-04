@@ -273,7 +273,6 @@
                             <display:column property="email" title="Email" />
                             <display:column property="demand" title="Nhu cầu" />
                             <display:column property="createdBy" title="Người thêm" />
-<%--                            <display:column property="staffid" title="Người Thêm" />--%>
                             <display:column property="createdDate" title="Ngày thêm" />
                             <display:column property="status" title="Tình trạng" />
                             <!-- Cột hành động -->
@@ -288,7 +287,7 @@
                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                     </a>
                                     <security:authorize access="hasRole('MANAGER')">
-                                        <button class="btn btn-xs btn-danger" onclick="deleteBuilding(${building.id})" title="Xóa tòa nhà">
+                                        <button class="btn btn-xs btn-danger" onclick="deleteCustomer(${customer.id})" title="Xóa tòa nhà">
                                             <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                         </button>
                                     </security:authorize>
@@ -349,6 +348,47 @@
         e.preventDefault();
         $('#listForm').submit();
     });
+
+    // Ajax Delete Customer
+    function deleteCustomer(data){
+        $.ajax({
+            url: '/api/customers/' + data,
+            type: 'DELETE',
+            // data: JSON.stringify(data), // Convert từ Object sang JSON
+            // contentType: 'application/json', // Kiểu dữ liệu gửi đi là JSON
+            dataType: "JSON",
+            success: function (response) {
+                alert(response.message);
+                console.log('Success');
+                window.location.href="<c:url value="/admin/customer-list" />"
+            },
+            error: function (response) {
+                console.log('Fail');
+                alert(response.message);
+                alert('Xóa tòa nhà thất bại');
+            }
+        })
+    }
+
+    $('#btn-deleteCustomer').click(function (e){
+        e.preventDefault();
+        var data = {};
+        var ids = $('#customer').find('tbody input[type="checkbox"]:checked').map(function() {
+            return $(this).val();
+        }).get();
+        data['ids'] = ids;
+        console.log(data);
+        if (data['ids'].length > 0){
+            deleteCustomer(data['ids']);
+        }
+        else
+        {
+            alert('Chưa chọn khách hàng cần xóa');
+        }
+
+    })
+
+    // Ajax Edit Customer
 </script>
 </body>
 </html>

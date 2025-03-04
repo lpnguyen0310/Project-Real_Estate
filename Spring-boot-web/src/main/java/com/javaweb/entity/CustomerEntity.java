@@ -42,7 +42,7 @@ public class CustomerEntity  extends BaseEntity{
     @Column(name = "status")
     private String status;
     @Column(name = "is_active", columnDefinition = "int default 1")
-    private int is_active;
+    private int is_active = 1;
 
 
     public Long getId() {

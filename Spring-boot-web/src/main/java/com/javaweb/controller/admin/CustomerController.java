@@ -28,14 +28,9 @@ public class CustomerController {
     public ModelAndView getCustomerPage(@ModelAttribute("modelSearch") CustomerSearchRequest params, HttpServletRequest request){
         ModelAndView mav = new ModelAndView("admin/customer/list");
         params.setTableId("customer");
-        // Xử lý thông tin phân trang từ request
         DisplayTagUtils.of(request, params);
-        // phân trang từ request
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getMaxPageItems());
-        // Lấy danh sách khách hàng theo điều kiện tìm kiếm và phân trang
         List<CustomerResponseDTO> customers = custormerService.findAllCustomer(params, pageable);
-
-
         params.setListResult(customers);
         int total = custormerService.countTotalBuilding(params);
         params.setTotalItems(total);
