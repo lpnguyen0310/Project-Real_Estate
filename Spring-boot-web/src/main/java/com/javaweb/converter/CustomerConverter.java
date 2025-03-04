@@ -4,6 +4,7 @@ package com.javaweb.converter;
 import com.javaweb.entity.CustomerEntity;
 import com.javaweb.enums.Status;
 import com.javaweb.model.dto.CustomerDTO;
+import com.javaweb.model.dto.CustomerResponseDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -46,6 +47,21 @@ public class CustomerConverter {
             customerEntity.setStatus(Status.CHUA_XU_LY.getStatusName()); // Mặc định "Chưa xử lý"
         }
         return customerEntity;
+    }
+
+
+    public CustomerResponseDTO toCustomerResponseDTO(CustomerEntity item) {
+        CustomerResponseDTO customerResponseDTO = modelMapper.map(item, CustomerResponseDTO.class);
+        // In ra giá trị thực tế của status từ Entity
+        System.out.println("===== Debugging Status Mapping =====");
+        System.out.println("Entity Status (Enum): " + item.getStatus());
+//        if(item.getStatus() != null){
+//            Map<String,String> statusMap = Status.getStatus();
+//            String statusName = statusMap.get(item.getStatus());
+//            customerResponseDTO.setStatus(statusName);
+//
+//        }
+        return customerResponseDTO;
     }
 
 }

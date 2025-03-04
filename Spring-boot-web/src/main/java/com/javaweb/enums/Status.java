@@ -23,6 +23,16 @@ public enum Status {
         return listStatus;
     }
 
+    public static Status fromStatusName(String statusName) {
+        for (Status status : Status.values()) {
+            if (status.statusName.equalsIgnoreCase(statusName)) {
+                return status;
+            }
+        }
+        return null; // Nếu không tìm thấy thì trả về null
+    }
+
+
     public String getStatusName() {
         return statusName;
     }

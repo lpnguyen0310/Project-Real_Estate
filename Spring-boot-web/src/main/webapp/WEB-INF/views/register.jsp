@@ -1,5 +1,6 @@
 
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@include file="/common/taglib.jsp"%>
 <html>
 <head>
     <title>Title</title>
@@ -106,6 +107,7 @@
             data: JSON.stringify(data),
             success: function (response) {
                 alert('Đăng ký thành công');
+                window.location.href = '<c:url value="/login"/>';
             },
             error: function (xhr) {
                 $('.error-message').remove(); // Xóa thông báo lỗi cũ
@@ -149,6 +151,10 @@
         if (json['password'] !== json['j_repeatpass']) {
             isValid = false;
             $('#repeatpass').after('<span class="error-message" style="color: red">Mật khẩu không trùng khớp</span>');
+        }
+        if (json['password'].length < 6){
+            isValid = false;
+            $('#password').after('<span class="error-message" style="color: red">Độ dài mật khẩu ít nhất 6 ký tự</span>');
         }
 
         if(isValid){

@@ -1,6 +1,7 @@
 package com.javaweb.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class UserEntity extends BaseEntity {
     private String fullName;
 
     @Column(name = "password", nullable = false)
+    @NotBlank(message = "Mật khẩu không được để trống")
     private String password;
 
     @Column(name = "status", nullable = false)
