@@ -272,6 +272,7 @@
                             <display:column property="phone" title="Di động" />
                             <display:column property="email" title="Email" />
                             <display:column property="demand" title="Nhu cầu" />
+                            <display:column property="createdBy" title="Người thêm" />
 <%--                            <display:column property="staffid" title="Người Thêm" />--%>
                             <display:column property="createdDate" title="Ngày thêm" />
                             <display:column property="status" title="Tình trạng" />

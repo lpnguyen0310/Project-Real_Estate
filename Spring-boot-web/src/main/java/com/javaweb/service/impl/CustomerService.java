@@ -54,10 +54,6 @@ public class CustomerService implements ICustormerService {
             CustomerResponseDTO customerResponseDTO = customerConverter.toCustomerResponseDTO(item);
             results.add(customerResponseDTO);
         }
-        System.out.println("===== Debugging Data from Database =====");
-        for (CustomerEntity entity : customerEntities) {
-            System.out.println("Customer Name: " + entity.getName() + " | Status: " + entity.getStatus());
-        }
         return results;
     }
 

@@ -31,16 +31,13 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
         }
     }
 
-    // Tìm kiếm theo điều kiện ten, email, sdt, status và phân trang
+
     @Override
     public List<CustomerEntity> findAllCustomer(CustomerSearchBuilder builder, Pageable pageable) {
         StringBuilder sql = new StringBuilder("SELECT * FROM customer WHERE 1=1");
-
-        sqlWhereNormal(builder, sql); // Tách điều kiện WHERE
-
+        sqlWhereNormal(builder, sql);
         sql.append(" LIMIT ").append(pageable.getPageSize())
                 .append(" OFFSET ").append(pageable.getOffset());
-
         Query query = entityManager.createNativeQuery(sql.toString(), CustomerEntity.class);
 
         return query.getResultList();
@@ -49,11 +46,8 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
     @Override
     public int countTotalBuildings(CustomerSearchBuilder builder) {
         StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM customer WHERE 1=1");
-
         sqlWhereNormal(builder, sql); // Tách điều kiện WHERE
-
         Query query = entityManager.createNativeQuery(sql.toString());
-
         return ((Number) query.getSingleResult()).intValue();
     }
 
