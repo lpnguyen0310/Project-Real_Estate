@@ -38,4 +38,12 @@ public class CustomerController {
         mav.addObject("status", Status.getStatus());
         return mav;
     }
+
+
+    @GetMapping("admin/customer-edit")
+    public ModelAndView getCustomerEditPage(@ModelAttribute("customer") CustomerDTO customerDTO){
+        ModelAndView mav = new ModelAndView("admin/customer/edit");
+        mav.addObject("status", Status.getStatus());
+        return mav;
+    }
 }

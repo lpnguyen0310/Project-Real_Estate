@@ -20,4 +20,6 @@ public interface ICustormerService {
     // Delete customer
     void deleteListCustomer(List<Long> ids);
 
+    CustomerDTO createOrUpdateCustomer(CustomerDTO customerDTO);
+
 }

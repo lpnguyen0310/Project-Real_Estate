@@ -388,7 +388,11 @@
 
     })
 
+    // End Ajax Delete Customer
+
     // Ajax Edit Customer
+
+    // End Ajax Edit Customer
 </script>
 </body>
 </html>

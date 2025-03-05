@@ -27,7 +27,7 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
             sql.append(" AND phone LIKE '%").append(builder.getPhone()).append("%'");
         }
         if (builder.getStatus() != null && !builder.getStatus().isEmpty()) {
-            sql.append(" AND status = '").append(builder.getStatusForDatabase()).append("'");
+            sql.append(" AND status LIKE '%").append(builder.getStatus()).append("%'");
         }
     }
 

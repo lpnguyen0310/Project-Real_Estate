@@ -39,7 +39,7 @@ public class CustomerService implements ICustormerService {
     public CustomerDTO save(CustomerDTO customerDTO) {
         CustomerEntity customerEntity = customerConverter.convertToEntity(customerDTO);
         if (customerEntity.getStatus() == null) {
-            customerEntity.setStatus(String.valueOf(Status.CHUA_XU_LY));
+            customerEntity.setStatus(Status.CHUA_XU_LY.getStatusName());
         }
         customerEntity = customerRepository.save(customerEntity);
         return customerConverter.convertToDto(customerEntity);
@@ -72,6 +72,20 @@ public class CustomerService implements ICustormerService {
         List<CustomerEntity> customerEntities = customerRepository.findAllById(ids);
         // Xu l khi noi ban với nhau
         customerRepository.deleteCustomer(ids);
+    }
+
+    @Override
+    public CustomerDTO createOrUpdateCustomer(CustomerDTO customerDTO) {
+        CustomerEntity customerEntity = customerConverter.convertToEntity(customerDTO);
+        if (customerEntity.getId() != null) {
+            CustomerEntity oldCustomer = customerRepository.findCustomerById(customerDTO.getId());
+            if (oldCustomer != null) {
+                customerEntity.setCreatedDate(oldCustomer.getCreatedDate());
+                customerEntity.setCreatedBy(oldCustomer.getCreatedBy());
+            }
+        }
+        customerEntity = customerRepository.save(customerEntity);
+        return customerConverter.convertToDto(customerEntity);
     }
 
 

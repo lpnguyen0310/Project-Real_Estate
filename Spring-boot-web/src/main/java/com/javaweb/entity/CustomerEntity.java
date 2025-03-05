@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "customer")
@@ -44,6 +45,20 @@ public class CustomerEntity  extends BaseEntity{
     @Column(name = "is_active", columnDefinition = "int default 1")
     private int is_active = 1;
 
+
+    @ManyToMany
+    @JoinTable(name = "assignmentcustomer",
+            joinColumns = @JoinColumn(name = "customerid"),
+            inverseJoinColumns = @JoinColumn(name = "staffid"))
+    private List<UserEntity> userEntities;
+
+    public List<UserEntity> getUserEntities() {
+        return userEntities;
+    }
+
+    public void setUserEntities(List<UserEntity> userEntities) {
+        this.userEntities = userEntities;
+    }
 
     public Long getId() {
         return id;

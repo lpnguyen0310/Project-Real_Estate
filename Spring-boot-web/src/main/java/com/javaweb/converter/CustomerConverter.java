@@ -20,14 +20,9 @@ public class CustomerConverter {
     // Chuyển từ DTO sang Entity
     public CustomerDTO convertToDto(CustomerEntity entity) {
         CustomerDTO customerDTO = modelMapper.map(entity, CustomerDTO.class);
-        // Chuyener Enum status sang String
-//        Map<String,String> statusMap = Status.getStatus();
-//        String statusName = statusMap.get(entity.getStatus());
-//        customerDTO.setStatus(statusName);
-        if(entity.getStatus() != null){
-            Map<String,String> statusMap = Status.getStatus();
-            String statusName = statusMap.get(entity.getStatus());
-            customerDTO.setStatus(statusName);
+
+        if (entity.getStatus() != null) {
+            customerDTO.setStatus(entity.getStatus());  // Trả về nguyên trạng từ database
         }
         return customerDTO;
     }
@@ -37,14 +32,12 @@ public class CustomerConverter {
         CustomerEntity customerEntity = modelMapper.map(dto, CustomerEntity.class);
         // Chuyener Enum status sang String
         if (dto.getStatus() != null) {
-            for (Status s : Status.values()) {
-                if (s.getStatusName().equals(dto.getStatus())) {
-                    customerEntity.setStatus(s.getStatusName()); // Lưu "Chưa xử lý"
+            for (Status item : Status.values()) {
+                if (item.getStatusName().equals(dto.getStatus())) {
+                    customerEntity.setStatus(item.getStatusName()); // Lưu Enum dưới dạng CHUA_XU_LY
                     break;
                 }
             }
-        } else {
-            customerEntity.setStatus(Status.CHUA_XU_LY.getStatusName()); // Mặc định "Chưa xử lý"
         }
         return customerEntity;
     }
@@ -52,15 +45,13 @@ public class CustomerConverter {
 
     public CustomerResponseDTO toCustomerResponseDTO(CustomerEntity item) {
         CustomerResponseDTO customerResponseDTO = modelMapper.map(item, CustomerResponseDTO.class);
-        // In ra giá trị thực tế của status từ Entity
-        System.out.println("===== Debugging Status Mapping =====");
-        System.out.println("Entity Status (Enum): " + item.getStatus());
-//        if(item.getStatus() != null){
-//            Map<String,String> statusMap = Status.getStatus();
-//            String statusName = statusMap.get(item.getStatus());
-//            customerResponseDTO.setStatus(statusName);
-//
-//        }
+        if(item.getStatus() != null){
+            Map<String,String> statusMap = Status.getStatus();
+            String statusName = statusMap.get(item.getStatus()); // Lấy tên đầy đủ của Enum
+            customerResponseDTO.setStatus(statusName);
+        }
+
+
         return customerResponseDTO;
     }
 

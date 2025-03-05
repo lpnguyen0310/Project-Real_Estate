@@ -18,20 +18,10 @@ public enum Status {
     public static Map<String,String> getStatus(){
         Map<String,String> listStatus = new LinkedHashMap<>();
         for(Status item : Status.values()){
-            listStatus.put(item.toString() , item.statusName);
+            listStatus.put(item.getStatusName() , item.statusName);
         }
         return listStatus;
     }
-
-    public static Status fromStatusName(String statusName) {
-        for (Status status : Status.values()) {
-            if (status.statusName.equalsIgnoreCase(statusName)) {
-                return status;
-            }
-        }
-        return null; // Nếu không tìm thấy thì trả về null
-    }
-
 
     public String getStatusName() {
         return statusName;

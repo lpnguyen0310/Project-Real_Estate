@@ -63,4 +63,30 @@ public class CustomerAPI {
         }
 
     }
+
+
+    @PostMapping("/api/admin/customers")
+    public ResponseEntity<?> createOrUpdateCustomer(@Valid @RequestBody CustomerDTO customerDTO, BindingResult bindingResult) {
+        try {
+            // Kiểm tra lỗi validate từ phía client
+            if (bindingResult.hasErrors()) {
+                List<String> errors = bindingResult.getFieldErrors()
+                        .stream()
+                        .map(FieldError::getDefaultMessage)
+                        .collect(Collectors.toList());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+            }
+            // Lưu d liệu vào database
+            CustomerDTO savedCustomer = custormerService.createOrUpdateCustomer(customerDTO);
+            // Kiểm tra kết quả xử lý
+            if (savedCustomer == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Operation failed. Unable to save customer.");
+            }
+            // Trả về kết quả thành công
+            return ResponseEntity.ok(savedCustomer);
+        } catch (Exception e) {
+            // Xử lý ngoại lệ và trả về thông báo lỗi
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }
