@@ -72,13 +72,6 @@ public class CustomerController {
         // Lấy danh sách giao dịch
         List<TransactionResponseDTO> transactions = transactionService.findAllTransaction(customerId);
         mav.addObject("transactions", transactions);
-        // In ra danh sách giao dịch
-        System.out.println("===== Debug Transaction List =====");
-        for (TransactionResponseDTO transaction : transactions) {
-            System.out.println("Transaction ID: " + transaction.getId() +
-                    ", Code: " + transaction.getCode() +
-                    ", Note: " + transaction.getNote());
-        }
         // Truyền dữ liệu vào view
         mav.addObject("status", Status.getStatus());
 

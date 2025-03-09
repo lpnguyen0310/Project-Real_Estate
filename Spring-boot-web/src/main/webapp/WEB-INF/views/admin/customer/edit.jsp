@@ -168,6 +168,7 @@
                                 <i class="ace-icon glyphicon glyphicon-plus smaller-80"></i> Thêm giao dịch
                             </button>
                         </h3>
+                        <div class="hr hr-16 "></div>
                     </div>
                     <div class="col-xs-12">
                         <table class="table table-bordered table-striped">
@@ -193,7 +194,9 @@
                                                 <td>${transactionData.modifiedBy}</td>
                                                 <td>${transactionData.note}</td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-info btn-sm" onclick="editTransaction(${transactionData.id}, '${transactionData.code}', ${customer.id})">
+                                                    <button class="btn btn-info btn-sm"
+                                                            onclick="editTransaction(${transactionData.id}, ${customer.id}, '${transactionData.code}')"
+                                                            data-note="${transactionData.note}">
                                                         <i class="fa fa-pencil"></i> Chỉnh Sửa
                                                     </button>
                                                     <button class="btn btn-danger btn-sm" onclick="deleteTransaction(${transactionData.id})">
@@ -223,6 +226,7 @@
                                 <i class="ace-icon glyphicon glyphicon-plus smaller-80"></i> Thêm giao dịch
                             </button>
                         </h3>
+                        <div class="hr hr-16 "></div>
                     </div>
                     <div class="col-xs-12">
                         <table class="table table-bordered table-striped">
@@ -248,9 +252,14 @@
                                                 <td>${transactionData.modifiedBy}</td>
                                                 <td>${transactionData.note}</td>
                                                 <td class="text-center">
-                                                    <button class="btn btn-info btn-sm" onclick="editTransaction(${transactionData.id}, '${transactionData.code}', ${customer.id})">
-                                                        <i class="fa fa-pencil"></i> Chỉnh Sửa
-                                                    </button>
+<%--                                                    <button class="btn btn-info btn-sm" onclick="editTransaction(${transactionData.id}, '${transactionData.code}', ${customer.id})">--%>
+<%--                                                        <i class="fa fa-pencil"></i> Chỉnh Sửa--%>
+<%--                                                    </button>--%>
+                                                <button class="btn btn-info btn-sm"
+                                                        onclick="editTransaction(${transactionData.id}, ${customer.id}, '${transactionData.code}')"
+                                                        data-note="${transactionData.note}">
+                                                    <i class="fa fa-pencil"></i> Chỉnh Sửa
+                                                </button>
                                                     <button class="btn btn-danger btn-sm" onclick="deleteTransaction(${transactionData.id})">
                                                         <i class="fa fa-trash"></i> Xóa
                                                     </button>
@@ -275,7 +284,6 @@
             </div><!-- /.page-content -->
         </div>
     </div><!-- /.main-content -->
-    <!-- Modal chỉnh sửa giao dịch -->
     <!-- Modal nhập thông tin giao dịch -->
     <div class="modal fade" id="transactionModal" tabindex="-1" role="dialog" aria-labelledby="transactionModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -380,16 +388,16 @@
         $('#transactionModal').modal('show');
     }
 
-    function editTransaction(transactionId, transactionCode, customerId) {
-        $('#transactionId').val(transactionId);
-        $('#code').val(transactionCode);
-        $('#customerId').val(customerId); // Đảm bảo lưu ID khách hàng
+    function editTransaction(transactionId, customerId, transactionCode) {
+        let note = event.currentTarget.getAttribute("data-note"); // Lấy dữ liệu note từ button
+        console.log("Debug Note:", note); // Debug xem có lấy được dữ liệu không
 
-        // Tìm đúng nội dung ghi chú `note` trong bảng giao dịch hiện tại
-        var note = $(`#transaction-note-${transactionId}`).text().trim();
-        $('#transactionNote').val(note);
-        // Hiển thị modal
-        $('#transactionModal').modal('show');
+        $('#transactionId').val(transactionId);
+        $('#customerId').val(customerId);
+        $('#code').val(transactionCode);
+        $('#transactionNote').val(note); // Hiển thị note lên modal
+
+        $('#transactionModal').modal('show'); // Hiển thị modal
     }
 
     // Xác nhận (thêm mới hoặc cập nhật giao dịch)
@@ -409,8 +417,7 @@
             success: function (response) {
                 alert("Lưu giao dịch thành công!");
                 location.reload(); // Refresh lại trang để cập nhật giao diện
-                // Sau khi lưu, chuyển hướng về trang danh sách khách hàng
-                window.location.href = "/admin/customer-list";
+               
             },
             error: function () {
                 alert("Có lỗi xảy ra, vui lòng thử lại!");
