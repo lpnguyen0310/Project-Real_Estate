@@ -9,4 +9,6 @@ public interface ITransactionService {
     List<TransactionResponseDTO> findAllTransaction(Long id);
 
     TransactionDTO createOrUpdateTransaction(TransactionDTO transactionDTO);
+
+    void deleteTransaction(Long id);
 }

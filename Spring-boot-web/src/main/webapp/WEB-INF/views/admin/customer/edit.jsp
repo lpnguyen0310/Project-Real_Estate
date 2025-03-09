@@ -252,9 +252,6 @@
                                                 <td>${transactionData.modifiedBy}</td>
                                                 <td>${transactionData.note}</td>
                                                 <td class="text-center">
-<%--                                                    <button class="btn btn-info btn-sm" onclick="editTransaction(${transactionData.id}, '${transactionData.code}', ${customer.id})">--%>
-<%--                                                        <i class="fa fa-pencil"></i> Chỉnh Sửa--%>
-<%--                                                    </button>--%>
                                                 <button class="btn btn-info btn-sm"
                                                         onclick="editTransaction(${transactionData.id}, ${customer.id}, '${transactionData.code}')"
                                                         data-note="${transactionData.note}">
@@ -427,6 +424,26 @@
         // Đóng modal sau khi gửi request
         $('#transactionModal').modal('hide');
     }
+
+    // Xóa giao dịch
+    function deleteTransaction(transactionId) {
+        if (confirm("Bạn có chắc chắn muốn xóa giao dịch này không?")) {
+            $.ajax({
+                url: '/api/admin/transactions/' + transactionId,
+                type: 'DELETE',
+                success: function (response) {
+                    alert("Xóa giao dịch thành công!");
+                    location.reload(); // Refresh lại trang để cập nhật giao diện
+                },
+                error: function () {
+                    alert("Có lỗi xảy ra, vui lòng thử lại!");
+                }
+            });
+        }
+    }
+
+
+
 </script>
 </div><!-- /.main-container -->
 </body>

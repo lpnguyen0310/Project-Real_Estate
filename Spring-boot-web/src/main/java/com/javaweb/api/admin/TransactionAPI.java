@@ -6,9 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class TransactionAPI {
@@ -24,4 +22,10 @@ public class TransactionAPI {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Lỗi khi lưu giao dịch: " + e.getMessage());
         }
     }
+
+    @DeleteMapping("/api/admin/transactions/{id}")
+    public ResponseEntity<?> deleteTransaction(@PathVariable("id") Long id) {
+        transactionService.deleteTransaction(id);
+        return ResponseEntity.ok("Xóa giao dịch thành công");
+    }   
 }

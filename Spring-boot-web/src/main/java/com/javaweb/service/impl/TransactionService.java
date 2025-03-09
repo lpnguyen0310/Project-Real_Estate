@@ -80,4 +80,11 @@ public class TransactionService implements ITransactionService {
         transactionEntity = transactionRepository.save(transactionEntity); // Lưu vào database
         return modelMapper.map(transactionEntity, TransactionDTO.class); // Trả về DTO
     }
+
+    @Override
+    public void deleteTransaction(Long id) {
+        TransactionEntity transaction = transactionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy giao dịch với ID: " + id));
+        transactionRepository.delete(transaction);
+    }
 }

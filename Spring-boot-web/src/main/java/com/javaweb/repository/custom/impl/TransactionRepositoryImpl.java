@@ -21,4 +21,12 @@ public class TransactionRepositoryImpl implements TransactionRepositoryCustom {
         query.setParameter("id", id);
         return query.getResultList();
     }
+
+    @Override
+    public void deleteTransaction(Long id) {
+        String sql = "DELETE FROM transaction WHERE id = :id";
+        Query query = entityManager.createNativeQuery(sql);
+        query.setParameter("id", id);
+        query.executeUpdate();
+    }
 }
