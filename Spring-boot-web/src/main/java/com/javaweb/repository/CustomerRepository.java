@@ -8,4 +8,6 @@ public interface CustomerRepository extends JpaRepository<CustomerEntity, Long>,
     CustomerEntity findOneCustomerByPhone(String phone);
 
     CustomerEntity findCustomerById (Long id);
+
+
 }

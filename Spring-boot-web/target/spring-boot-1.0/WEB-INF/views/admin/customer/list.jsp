@@ -279,7 +279,7 @@
                             <display:column title="Thao tác">
                                 <div class="hidden-sm hidden-xs btn-group">
                                     <security:authorize access="hasRole('MANAGER')">
-                                        <button class="btn btn-xs btn-success" onclick="assignmentBuilding(${building.id})" title="Giao tòa nhà">
+                                        <button class="btn btn-xs btn-success" onclick="assignmentCustomer(${customer.id})" title="Giao Khách Hàng">
                                             <i class="ace-icon fa fa-check bigger-120"></i>
                                         </button>
                                     </security:authorize>
@@ -287,7 +287,7 @@
                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                     </a>
                                     <security:authorize access="hasRole('MANAGER')">
-                                        <button class="btn btn-xs btn-danger" onclick="deleteCustomer(${customer.id})" title="Xóa tòa nhà">
+                                        <button class="btn btn-xs btn-danger" onclick="deleteCustomer(${customer.id})" title="Xóa Khách Hàng">
                                             <i class="ace-icon fa fa-trash-o bigger-120"></i>
                                         </button>
                                     </security:authorize>
@@ -304,7 +304,7 @@
 
 
     <!-- Modal Fade -->
-    <div class="modal" id="assignmentBuildingModal" style="font-family: 'Times New Roman', Times, serif;">
+    <div class="modal" id="assignmentCustomerModal" style="font-family: 'Times New Roman', Times, serif;">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -321,7 +321,6 @@
                                 </label>
                             </th>
                             <th>Họ Tên nhân viên</th>
-
                         </tr>
                         </thead>
 
@@ -330,13 +329,13 @@
                     </table>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="btn-aggsingmentBuilding">Giao tòa nhà</button>
+                    <button type="button" class="btn btn-primary" id="btn-aggsingmentCustomer">Giao Khách Hàng</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
                 </div>
             </div>
         </div>
     </div>
-    <input type="hidden" id="buildingId" value="">
+    <input type="hidden" id="customerId" value="">
 </div><!-- /.main-container -->
 <!--[if !IE]> -->
 <script src="assets/js/jquery.2.1.1.min.js"></script>
@@ -388,11 +387,82 @@
 
     })
 
-    // End Ajax Delete Customer
+    function assignmentCustomer(id) {
+        console.log('Hello Nguyên');
+        $('#customerId').val(id);
+        $('#assignmentCustomerModal').modal();
+        loadStaff(id);
+    }
+    function loadStaff(customerId) {
+        $('#customerId').val(customerId); // Gán ID tòa nhà vào input ẩn
 
-    // Ajax Edit Customer
+        $.ajax({
+            url: "/api/customers/" + customerId + "/staffs",
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (response) {
+                console.log("Response from API:", response); // Kiểm tra dữ liệu trả về
 
-    // End Ajax Edit Customer
+                var row = '';
+                response.forEach(function (item) {
+                    row += '<tr>';
+                    row += '<td class="center">';
+                    row += '<label class="pos-rel">';
+                    row += '<input type="checkbox" class="ace" value="' + item.staffId + '" ' + (item.checked === 'checked' ? 'checked' : '') + '>';
+                    row += '<span class="lbl"></span>';
+                    row += '</label>';
+                    row += '</td>';
+                    row += '<td class="center">' + item.fullName + '</td>';
+                    row += '</tr>';
+                });
+
+
+                $('#staff-list tbody').html(row); // Thêm nội dung vào bảng
+            },
+            error: function () {
+                alert('Không thể tải danh sách nhân viên. Vui lòng thử lại.');
+            }
+        });
+    }
+    // Giao khách hàng cho nhân viên
+    $('#btn-aggsingmentCustomer').click(function(e) {
+        e.preventDefault();
+        var json = {};
+        json['customerId'] = $('#customerId').val();
+        var staffIds = $('#staff-list').find('tbody input[type="checkbox"]:checked').map(function() {
+            return $(this).val();
+        }).get();
+        json['staffIds'] = staffIds;
+        console.log(json);
+        if (json['customerId'].length > 0) {
+            updateAssingment(json);
+        }
+        else {
+            alert('Customer ID is required');
+        }
+    });
+
+    // Ajax Assignment Customer
+    function updateAssingment(data){
+        $.ajax({
+            url: '/api/assingments/customer',
+            type: 'POST',
+            data: JSON.stringify(data), // Convert từ Object sang JSON
+            contentType: 'application/json', // Kiểu dữ liệu gửi đi là JSON
+            dataType: "JSON",
+            success: function (response) {
+                alert('Assingment Success');
+                location.reload();
+
+            },
+            error: function (response) {
+                console.log('Fail');
+                alert(response.message);
+                alert('Assingment Fail');
+            }
+        })
+    }
+
 </script>
 </body>
 </html>

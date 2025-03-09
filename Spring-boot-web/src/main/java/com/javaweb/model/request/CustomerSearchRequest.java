@@ -12,6 +12,16 @@ public class CustomerSearchRequest extends AbstractDTO {
 
     private String status;
 
+//    private Long staffId;
+//
+//    public Long getStaffId() {
+//        return staffId;
+//    }
+//
+//    public void setStaffId(Long staffId) {
+//        this.staffId = staffId;
+//    }
+
     public String getFullName() {
         return fullName;
     }

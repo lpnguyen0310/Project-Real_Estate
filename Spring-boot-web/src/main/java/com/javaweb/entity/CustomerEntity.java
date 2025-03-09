@@ -59,7 +59,6 @@ public class CustomerEntity  extends BaseEntity{
 
 
 
-
     public List<UserEntity> getUserEntities() {
         return userEntities;
     }

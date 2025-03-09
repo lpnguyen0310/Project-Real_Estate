@@ -44,6 +44,14 @@ public class CustomerController {
         ModelAndView mav = new ModelAndView("admin/customer/list");
         params.setTableId("customer");
         DisplayTagUtils.of(request, params);
+       // nếu là staff chỉ xem được khách hàng của mình
+        // Lấy ID nhân viên đang đăng nhập
+        Long staffId = SecurityUtils.getPrincipal().getId();
+
+        // Kiểm tra vai trò của người dùng
+        boolean isStaff = SecurityUtils.getAuthorities().contains("STAFF");
+
+
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getMaxPageItems());
         List<CustomerResponseDTO> customers = custormerService.findAllCustomer(params, pageable);
         params.setListResult(customers);

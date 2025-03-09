@@ -2,6 +2,7 @@ package com.javaweb.api.admin;
 
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.response.ResponseDTO;
+import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.service.ICustormerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -88,5 +89,11 @@ public class CustomerAPI {
             // Xử lý ngoại lệ và trả về thông báo lỗi
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+
+    @GetMapping("/api/customers/{customerId}/staffs")
+    public ResponseEntity<List<StaffResponseDTO>> getStaffsByBuilding(@PathVariable Long customerId) {
+        List<StaffResponseDTO> response = custormerService.getStaffsByCustomer(customerId);
+        return ResponseEntity.ok(response);
     }
 }

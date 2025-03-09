@@ -47,6 +47,7 @@ public class BuildingController {
             mav.addObject("districts", District.getDistrict());
             mav.addObject("typeCodes", TypeCode.type());
 
+            // Nếu là Staff chỉ xem được tòa nhà miình quản lý
             if(SecurityUtils.getAuthorities().contains(SystemConstant.STAFF_ROLE)){
                 // Lấy id của nhân viên đăng nhập
                 Long staffId = SecurityUtils.getPrincipal().getId();

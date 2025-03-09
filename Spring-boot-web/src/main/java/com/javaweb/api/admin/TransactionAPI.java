@@ -27,5 +27,5 @@ public class TransactionAPI {
     public ResponseEntity<?> deleteTransaction(@PathVariable("id") Long id) {
         transactionService.deleteTransaction(id);
         return ResponseEntity.ok("Xóa giao dịch thành công");
-    }   
+    }
 }

@@ -4,14 +4,18 @@ import com.javaweb.builder.CustomerSearchBuilder;
 import com.javaweb.converter.CustomerConverter;
 import com.javaweb.converter.CustomerSearchBuilderConverter;
 import com.javaweb.entity.CustomerEntity;
+import com.javaweb.entity.UserEntity;
 import com.javaweb.enums.Status;
 import com.javaweb.exception.MyException;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.CustomerResponseDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
+import com.javaweb.model.response.StaffResponseDTO;
 import com.javaweb.repository.CustomerRepository;
+import com.javaweb.repository.UserRepository;
 import com.javaweb.repository.custom.CustomerRepositoryCustom;
 import com.javaweb.service.ICustormerService;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,7 +40,8 @@ public class CustomerService implements ICustormerService {
     private CustomerSearchBuilderConverter customerSearchBuilderConverter;
 
 
-
+    @Autowired
+    private UserRepository userRepository;
 
 
     @Override
@@ -105,6 +110,27 @@ public class CustomerService implements ICustormerService {
     public CustomerDTO findCustomerById(Long id) {
         CustomerEntity entity = customerRepository.findCustomerById(id);
         return customerConverter.convertToDto(entity);
+    }
+
+    @Override
+    public List<StaffResponseDTO> getStaffsByCustomer(Long customerId) {
+        CustomerEntity customerEntity = customerRepository.findCustomerById(customerId);
+        Hibernate.initialize(customerEntity.getUserEntities());
+        List<UserEntity> userEntities = customerEntity.getUserEntities();
+        // Lay ra danh sach nhan vien co role la staff va status = 1
+        List<UserEntity> allStaffs = userRepository.findByStatusAndRoles_Code(1, "STAFF");
+        return allStaffs.stream().map(staff -> {
+            StaffResponseDTO dto = new StaffResponseDTO();
+            dto.setStaffId(staff.getId());
+            dto.setFullName(staff.getFullName());
+            dto.setChecked(userEntities.contains(staff) ? "checked" : "");
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CustomerResponseDTO> findCustomerByStaff(Long staffId, CustomerSearchRequest params, Pageable pageable) {
+        return null;
     }
 
 
