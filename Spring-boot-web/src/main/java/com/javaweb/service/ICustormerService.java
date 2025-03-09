@@ -1,5 +1,6 @@
 package com.javaweb.service;
 
+import com.javaweb.exception.MyException;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.CustomerResponseDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
@@ -20,6 +21,9 @@ public interface ICustormerService {
     // Delete customer
     void deleteListCustomer(List<Long> ids);
 
-    CustomerDTO createOrUpdateCustomer(CustomerDTO customerDTO);
+    CustomerDTO createOrUpdateCustomer(CustomerDTO customerDTO) throws MyException;
 
+
+    // Tìm kiếm khách hàng theo id
+    CustomerDTO findCustomerById(Long id);
 }

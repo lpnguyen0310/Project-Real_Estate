@@ -20,4 +20,7 @@ public interface CustomerRepositoryCustom {
 
    CustomerEntity findCustomerById(Long id);
 
+   // Tìm 1 khách hàng theo số điện thoại và trạng thái
+    CustomerEntity findOneCustomerByPhoneAndIs_active(String phone, int is_active);
+
 }

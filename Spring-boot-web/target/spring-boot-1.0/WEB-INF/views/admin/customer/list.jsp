@@ -237,7 +237,7 @@
                                 </button>
                             </a>
                             <security:authorize access="hasRole('MANAGER')">
-                                <button class="btn btn-app btn-danger btn-sm" title="Xóa toà nhà" id="btn-deleteCustomer">
+                                <button class="btn btn-app btn-danger btn-sm" title="Xóa khách hàng" id="btn-deleteCustomer">
                                     <i class="ace-icon fa fa-trash-o bigger-200"></i>
                                 </button>
                             </security:authorize>
@@ -283,7 +283,7 @@
                                             <i class="ace-icon fa fa-check bigger-120"></i>
                                         </button>
                                     </security:authorize>
-                                    <a class="btn btn-xs btn-info" href="/admin/building-edit-${building.id}">
+                                    <a class="btn btn-xs btn-info" href="/admin/customer-edit-${customer.id}">
                                         <i class="ace-icon fa fa-pencil bigger-120"></i>
                                     </a>
                                     <security:authorize access="hasRole('MANAGER')">

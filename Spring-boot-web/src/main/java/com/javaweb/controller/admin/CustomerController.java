@@ -1,10 +1,18 @@
 package com.javaweb.controller.admin;
 
+import com.javaweb.constant.SystemConstant;
 import com.javaweb.enums.Status;
+import com.javaweb.enums.TransactionType;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.CustomerResponseDTO;
+import com.javaweb.model.dto.TransactionDTO;
+import com.javaweb.model.dto.TransactionResponseDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
+import com.javaweb.repository.CustomerRepository;
+import com.javaweb.repository.TransactionRepository;
+import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.ICustormerService;
+import com.javaweb.service.ITransactionService;
 import com.javaweb.utils.DisplayTagUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
@@ -12,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +31,12 @@ public class CustomerController {
 
     @Autowired
     private ICustormerService custormerService;
+
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private ITransactionService transactionService;
 
 
     @GetMapping("admin/customer-list")
@@ -44,6 +59,29 @@ public class CustomerController {
     public ModelAndView getCustomerEditPage(@ModelAttribute("customer") CustomerDTO customerDTO){
         ModelAndView mav = new ModelAndView("admin/customer/edit");
         mav.addObject("status", Status.getStatus());
+        return mav;
+    }
+    @GetMapping("admin/customer-edit-{id}")
+    public ModelAndView editCustomer(@PathVariable("id") Long customerId) {
+        ModelAndView mav = new ModelAndView("admin/customer/edit");
+
+        // Lấy thông tin khách hàng
+        CustomerDTO customer = custormerService.findCustomerById(customerId);
+        mav.addObject("customer", customer);
+
+        // Lấy danh sách giao dịch
+        List<TransactionResponseDTO> transactions = transactionService.findAllTransaction(customerId);
+        mav.addObject("transactions", transactions);
+        // In ra danh sách giao dịch
+        System.out.println("===== Debug Transaction List =====");
+        for (TransactionResponseDTO transaction : transactions) {
+            System.out.println("Transaction ID: " + transaction.getId() +
+                    ", Code: " + transaction.getCode() +
+                    ", Note: " + transaction.getNote());
+        }
+        // Truyền dữ liệu vào view
+        mav.addObject("status", Status.getStatus());
+
         return mav;
     }
 }

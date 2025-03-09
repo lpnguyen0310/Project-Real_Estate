@@ -5,10 +5,12 @@ import com.javaweb.converter.CustomerConverter;
 import com.javaweb.converter.CustomerSearchBuilderConverter;
 import com.javaweb.entity.CustomerEntity;
 import com.javaweb.enums.Status;
+import com.javaweb.exception.MyException;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.CustomerResponseDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
 import com.javaweb.repository.CustomerRepository;
+import com.javaweb.repository.custom.CustomerRepositoryCustom;
 import com.javaweb.service.ICustormerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +34,8 @@ public class CustomerService implements ICustormerService {
 
     @Autowired
     private CustomerSearchBuilderConverter customerSearchBuilderConverter;
+
+
 
 
 
@@ -75,8 +79,17 @@ public class CustomerService implements ICustormerService {
     }
 
     @Override
-    public CustomerDTO createOrUpdateCustomer(CustomerDTO customerDTO) {
+    public CustomerDTO createOrUpdateCustomer(CustomerDTO customerDTO) throws MyException {
         CustomerEntity customerEntity = customerConverter.convertToEntity(customerDTO);
+        // Kiêểm tra phone tồn tại chưa và is_active = 1
+        CustomerEntity existCustomer = customerRepository.findOneCustomerByPhone(customerDTO.getPhone());
+        if (existCustomer != null && (customerDTO.getId() == null || !customerDTO.getId().equals(existCustomer.getId()))) {
+            throw new MyException("Số điện thoại đã tồn tại trong hệ thống");
+        }
+//        if(customerRepository.findOneCustomerByPhone(customerDTO.getPhone()) != null){
+//            throw new MyException("Số điện thoại đã tồn tại");
+//
+//        }
         if (customerEntity.getId() != null) {
             CustomerEntity oldCustomer = customerRepository.findCustomerById(customerDTO.getId());
             if (oldCustomer != null) {
@@ -86,6 +99,12 @@ public class CustomerService implements ICustormerService {
         }
         customerEntity = customerRepository.save(customerEntity);
         return customerConverter.convertToDto(customerEntity);
+    }
+
+    @Override
+    public CustomerDTO findCustomerById(Long id) {
+        CustomerEntity entity = customerRepository.findCustomerById(id);
+        return customerConverter.convertToDto(entity);
     }
 
 

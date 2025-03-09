@@ -9,6 +9,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -51,6 +52,18 @@ public class CustomerEntity  extends BaseEntity{
             joinColumns = @JoinColumn(name = "customerid"),
             inverseJoinColumns = @JoinColumn(name = "staffid"))
     private List<UserEntity> userEntities;
+
+    @OneToMany(mappedBy = "customerEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TransactionEntity> transactionEntities = new ArrayList<>();
+
+
+    public List<TransactionEntity> getTransactionEntities() {
+        return transactionEntities;
+    }
+
+    public void setTransactionEntities(List<TransactionEntity> transactionEntities) {
+        this.transactionEntities = transactionEntities;
+    }
 
     public List<UserEntity> getUserEntities() {
         return userEntities;

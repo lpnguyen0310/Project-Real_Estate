@@ -143,7 +143,7 @@
                                         <button type="button" class="btn btn-primary" id="btnAddCustomer">Thêm Tòa Nhà</button>
                                     </c:if>
 
-                                    <button type="button" class="btn btn-warning" id="btnCancelBuilding">Hủy Thao Tác</button>
+                                    <button type="button" class="btn btn-warning" id="btnCancel">Hủy Thao Tác</button>
 
 
                                 </div>
@@ -152,12 +152,165 @@
                         </form:form>
                     </div>
                 </div>
+                <c:if test="${not empty customer.id}">
+                    <div class="col-xs-12">
+                        <h2 class="smaller lighter blue">
+                            Giao dịch khách hàng
+                        </h2>
+                    </div>
 
+                    <!-- Bảng dành cho CSKH -->
+                    <div class="col-xs-12">
+                        <h3 class="smaller lighter blue">
+                            Chăm sóc khách hàng (CSKH)
+                            <button class="btn btn-md btn-success pull-right" title="Thêm giao dịch"
+                                    onclick="addTransaction('CSKH', ${customer.id})">
+                                <i class="ace-icon glyphicon glyphicon-plus smaller-80"></i> Thêm giao dịch
+                            </button>
+                        </h3>
+                    </div>
+                    <div class="col-xs-12">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th class="text-center">NGÀY TẠO</th>
+                                <th class="text-center">NGƯỜI TẠO</th>
+                                <th class="text-center">NGÀY SỬA</th>
+                                <th class="text-center">NGƯỜI SỬA</th>
+                                <th class="text-center">CHI TIẾT GIAO DỊCH</th>
+                                <th class="text-center">THAO TÁC</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:choose>
+                                <c:when test="${not empty transactions}">
+                                    <c:forEach var="transactionData" items="${transactions}">
+                                        <c:if test="${transactionData.code == 'CSKH'}">
+                                            <tr>
+                                                <td>${transactionData.createdDate}</td>
+                                                <td>${transactionData.createdBy}</td>
+                                                <td>${transactionData.modifiedDate}</td>
+                                                <td>${transactionData.modifiedBy}</td>
+                                                <td>${transactionData.note}</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-info btn-sm" onclick="editTransaction(${transactionData.id}, '${transactionData.code}', ${customer.id})">
+                                                        <i class="fa fa-pencil"></i> Chỉnh Sửa
+                                                    </button>
+                                                    <button class="btn btn-danger btn-sm" onclick="deleteTransaction(${transactionData.id})">
+                                                        <i class="fa fa-trash"></i> Xóa
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <tr>
+                                        <td colspan="6" class="text-center">Chưa có giao dịch nào</td>
+                                    </tr>
+                                </c:otherwise>
+                            </c:choose>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Bảng dành cho DDX -->
+                    <div class="col-xs-12">
+                        <h3 class="smaller lighter blue">
+                            Dẫn đi xem nhà (DDX)
+                            <button class="btn btn-md btn-success pull-right" title="Thêm giao dịch"
+                                    onclick="addTransaction('DDX', ${customer.id})">
+                                <i class="ace-icon glyphicon glyphicon-plus smaller-80"></i> Thêm giao dịch
+                            </button>
+                        </h3>
+                    </div>
+                    <div class="col-xs-12">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th class="text-center">NGÀY TẠO</th>
+                                <th class="text-center">NGƯỜI TẠO</th>
+                                <th class="text-center">NGÀY SỬA</th>
+                                <th class="text-center">NGƯỜI SỬA</th>
+                                <th class="text-center">CHI TIẾT GIAO DỊCH</th>
+                                <th class="text-center">THAO TÁC</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:choose>
+                                <c:when test="${not empty transactions}">
+                                    <c:forEach var="transactionData" items="${transactions}">
+                                        <c:if test="${transactionData.code == 'DDX'}">
+                                            <tr>
+                                                <td>${transactionData.createdDate}</td>
+                                                <td>${transactionData.createdBy}</td>
+                                                <td>${transactionData.modifiedDate}</td>
+                                                <td>${transactionData.modifiedBy}</td>
+                                                <td>${transactionData.note}</td>
+                                                <td class="text-center">
+                                                    <button class="btn btn-info btn-sm" onclick="editTransaction(${transactionData.id}, '${transactionData.code}', ${customer.id})">
+                                                        <i class="fa fa-pencil"></i> Chỉnh Sửa
+                                                    </button>
+                                                    <button class="btn btn-danger btn-sm" onclick="deleteTransaction(${transactionData.id})">
+                                                        <i class="fa fa-trash"></i> Xóa
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        </c:if>
+                                    </c:forEach>
+                                </c:when>
+                                <c:otherwise>
+                                    <tr>
+                                        <td colspan="6" class="text-center">Chưa có giao dịch nào</td>
+                                    </tr>
+                                </c:otherwise>
+                            </c:choose>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </c:if>
 
 
             </div><!-- /.page-content -->
         </div>
     </div><!-- /.main-content -->
+    <!-- Modal chỉnh sửa giao dịch -->
+    <!-- Modal nhập thông tin giao dịch -->
+    <div class="modal fade" id="transactionModal" tabindex="-1" role="dialog" aria-labelledby="transactionModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <!-- Tiêu đề Modal -->
+                <div class="modal-header">
+                    <h5 class="modal-title">Nhập thông tin giao dịch</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
+                <!-- Nội dung Modal -->
+                <div class="modal-body">
+                    <form id="transactionForm">
+                        <!-- Input ẩn lưu ID giao dịch -->
+                        <input type="hidden" id="transactionId">
+                        <input type="hidden" id="code">
+                        <input type="hidden" id="customerId">
+
+                        <div class="form-group">
+                            <label for="transactionNote">Chi tiết giao dịch</label>
+                            <input type="text" class="form-control" id="transactionNote" placeholder="Nhập nội dung giao dịch">
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Footer Modal -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" onclick="confirmTransaction()">Xác nhận</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
 
@@ -166,7 +319,6 @@
 </a>
 <script src="assets/js/jquery.2.1.1.min.js"></script>
 <script>
-
     function AddCustomer(data){
         // Kiểm tra id có tồn tại hay không
         const isUpdate = data.id !== undefined && data.id !== null && data.id !== "";
@@ -184,7 +336,13 @@
             },
             error: function (response) {
                 console.log('Fail');
-                alert(response.responseJSON);
+                $('.error-message').remove(); // Xóa thông báo lỗi cũ
+                if (response.status === 400) {
+                    $('#phone').after('<span class="error-message" style="color: red">' + response.responseText + '</span>');
+
+                } else {
+                    alert('Có lỗi xảy ra, vui lòng thử lại sau');
+                }
             }
         })
     }
@@ -205,6 +363,63 @@
             alert('Vui lòng nhập đầy đủ thông tin');
         }
     })
+
+    $('#btnCancel').click(function (e){
+        e.preventDefault();
+        window.location.href="<c:url value="/admin/customer-list" />"
+    })
+
+    // Mở modal để thêm mới giao dịch
+    function addTransaction(transactionCode, customerId) {
+        $('#transactionId').val(""); // Để trống ID để tạo mới
+        $('#code').val(transactionCode);
+        $('#customerId').val(customerId);
+        $('#transactionNote').val(""); // Xóa nội dung cũ
+
+        // Hiển thị modal
+        $('#transactionModal').modal('show');
+    }
+
+    function editTransaction(transactionId, transactionCode, customerId) {
+        $('#transactionId').val(transactionId);
+        $('#code').val(transactionCode);
+        $('#customerId').val(customerId); // Đảm bảo lưu ID khách hàng
+
+        // Tìm đúng nội dung ghi chú `note` trong bảng giao dịch hiện tại
+        var note = $(`#transaction-note-${transactionId}`).text().trim();
+        $('#transactionNote').val(note);
+        // Hiển thị modal
+        $('#transactionModal').modal('show');
+    }
+
+    // Xác nhận (thêm mới hoặc cập nhật giao dịch)
+    function confirmTransaction() {
+        var transactionData = {
+            id: $('#transactionId').val() || null, // Nếu ID rỗng thì là thêm mới
+            code: $('#code').val(),
+            customerId: $('#customerId').val(),
+            note: $('#transactionNote').val()
+        };
+
+        $.ajax({
+            url: '/api/admin/transactions',
+            type: 'POST',
+            data: JSON.stringify(transactionData),
+            contentType: 'application/json',
+            success: function (response) {
+                alert("Lưu giao dịch thành công!");
+                location.reload(); // Refresh lại trang để cập nhật giao diện
+                // Sau khi lưu, chuyển hướng về trang danh sách khách hàng
+                window.location.href = "/admin/customer-list";
+            },
+            error: function () {
+                alert("Có lỗi xảy ra, vui lòng thử lại!");
+            }
+        });
+
+        // Đóng modal sau khi gửi request
+        $('#transactionModal').modal('hide');
+    }
 </script>
 </div><!-- /.main-container -->
 </body>

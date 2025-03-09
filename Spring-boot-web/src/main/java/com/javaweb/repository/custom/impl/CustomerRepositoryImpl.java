@@ -67,5 +67,15 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
         return (CustomerEntity) query.getSingleResult();
     }
 
+    @Override
+    public CustomerEntity findOneCustomerByPhoneAndIs_active(String phone, int is_active) {
+        // Kiểm tra phone tồn tại chưa và is_active = 1
+        // Phone đuọược truyền vào từ CustomerDTO
+        String sql = "SELECT * FROM customer WHERE phone = :phone AND is_active = 1";
+        Query query = entityManager.createNativeQuery(sql, CustomerEntity.class);
+        query.setParameter("phone", phone);
+        return (CustomerEntity) query.getSingleResult();
+    }
+
     // Code here
 }
