@@ -14,6 +14,7 @@ public class CustomerSearchBuilderConverter {
                 .setPhone(searchParams.getPhone())
                 .setEmail(searchParams.getEmail())
                 .setStatus(searchParams.getStatus())
+                .setStaffId(searchParams.getStaffId())
                 .build();
         return customerSearchBuilder;
     }

@@ -133,5 +133,15 @@ public class CustomerService implements ICustormerService {
         return null;
     }
 
+    @Override
+    public boolean findCustomerByIdAndStaffId(Long customerId, Long staffId) {
+        CustomerEntity customerEntity = customerRepository.findCustomerById(customerId);
+        UserEntity userEntity = userRepository.findById(staffId).orElse(null);
+        if (customerEntity == null || userEntity == null) {
+            return false;
+        }
+        return customerEntity.getUserEntities().contains(userEntity);
+    }
+
 
 }

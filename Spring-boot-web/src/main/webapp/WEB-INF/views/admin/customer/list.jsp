@@ -91,13 +91,7 @@
                                                     <option value=""> -- Chọn Trạng Thái --</option>
                                                     <form:options items="${status}" ></form:options>
                                                 </form:select>
-                                                    <%--                                                <select class="form-control" name="district" >--%>
-                                                    <%--                                                    <option value="">-- Chọn Quận --</option>--%>
-                                                    <%--                                                    <option value="QUAN_1">Quận 1</option>--%>
-                                                    <%--                                                    <option value="QUAN_2">Quận 2</option>--%>
-                                                    <%--                                                    <option value="QUAN_3">Quận 3</option>--%>
-                                                    <%--                                                    <option value="QUAN_4">Quận 4</option>--%>
-                                                    <%--                                                </select>--%>
+
                                             </div>
                                             <div class="col-xs-5">
                                                 <label>
@@ -108,112 +102,6 @@
                                             </div>
                                         </div>
 
-                                        <!-- Hàng 3 -->
-<%--                                        <div class="col-xs-12">--%>
-<%--&lt;%&ndash;                                            <div class="col-xs-4">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                <label>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                    Số tầng hầm&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                </label>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                    &lt;%&ndash;                                                <input type="number" class="form-control" name="numberOfBasement" value="${modelSearch.numberOfBasement}">&ndash;%&gt;&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                <form:input path="numberOfBasement" class="form-control" />&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                            </div>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                            <div class="col-xs-4">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                <label>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                    Hướng&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                </label>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                    &lt;%&ndash;                                                <input type="text" class="form-control" name="direction" value="${modelSearch.direction}">&ndash;%&gt;&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                <form:input path="direction" class="form-control" />&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                            </div>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                            <div class="col-xs-4">&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                <label>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                    Hạng&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                </label>&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                    &lt;%&ndash;                                                <input type="text" class="form-control" name="level" value="${modelSearch.level}">&ndash;%&gt;&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                                <form:input path="level" class="form-control" />&ndash;%&gt;--%>
-<%--&lt;%&ndash;                                            </div>&ndash;%&gt;--%>
-<%--                                        </div>--%>
-
-                                        <!-- Hàng 4 -->
-<%--                                        <div class="col-xs-12">--%>
-<%--                                            <div class="col-xs-3">--%>
-<%--                                                <label>--%>
-<%--                                                    Diện tích từ--%>
-<%--                                                </label>--%>
-<%--                                                    &lt;%&ndash;                                                <input type="number" class="form-control" name="AreaFrom" value="${modelSearch.areaFrom}">&ndash;%&gt;--%>
-<%--                                                <form:input path="areaFrom" class="form-control" />--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-xs-3">--%>
-<%--                                                <label>--%>
-<%--                                                    Diện tích đến--%>
-<%--                                                </label>--%>
-<%--                                                    &lt;%&ndash;                                                <input type="number" class="form-control" name="AreaTo" value="${modelSearch.areaTo}">&ndash;%&gt;--%>
-<%--                                                <form:input path="areaTo" class="form-control" />--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-xs-3">--%>
-<%--                                                <label>--%>
-<%--                                                    Giá thuê từ--%>
-<%--                                                </label>--%>
-<%--                                                    &lt;%&ndash;                                                <input type="number" class="form-control" name="rentPriceFrom" value="${modelSearch.rentPriceFrom}">&ndash;%&gt;--%>
-<%--                                                <form:input path="rentPriceFrom" class="form-control" />--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-xs-3">--%>
-<%--                                                <label>--%>
-<%--                                                    Giá thuê đến--%>
-<%--                                                </label>--%>
-<%--                                                    &lt;%&ndash;                                                <input type="number" class="form-control" name="rentPriceTo" value="${modelSearch.rentPriceTo}">&ndash;%&gt;--%>
-<%--                                                <form:input path="rentPriceTo" class="form-control" />--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-
-                                        <!-- Hàng 5 -->
-<%--                                        <div class="col-xs-12">--%>
-
-<%--                                            <div class="col-xs-5">--%>
-<%--                                                <label>--%>
-<%--                                                    Tên Quản Lý--%>
-<%--                                                </label>--%>
-<%--                                                    &lt;%&ndash;                                                <input type="text" class="form-control" name="managerName" value="${modelSearch.managerName}">&ndash;%&gt;--%>
-<%--                                                <form:input path="managerName" class="form-control" />--%>
-<%--                                            </div>--%>
-<%--                                            <div class="col-xs-5">--%>
-<%--                                                <label>--%>
-<%--                                                    SĐT Quản Lý--%>
-<%--                                                </label>--%>
-<%--                                                    &lt;%&ndash;                                                <input type="text" class="form-control" name="managerPhoneNumber" value="${modelSearch.managerPhone}">&ndash;%&gt;--%>
-<%--                                                <form:input path="managerPhone" class="form-control" />--%>
-<%--                                            </div>--%>
-<%--                                            <security:authorize access="hasRole('MANAGER')">--%>
-<%--                                                <div class="col-xs-2">--%>
-<%--                                                    <label>--%>
-<%--                                                        Chọn Nhân Viên--%>
-<%--                                                    </label>--%>
-<%--                                                    <form:select path="staffId" class="form-control">--%>
-<%--                                                        <option value=""> -- Chọn Nhân Viên --</option>--%>
-<%--                                                        <form:options items="${staffMap}" ></form:options>--%>
-<%--                                                    </form:select>--%>
-<%--                                                </div>--%>
-<%--                                            </security:authorize>--%>
-
-<%--                                        </div>--%>
-
-                                        <!-- Hàng 6 -->
-<%--                                        <div class="col-xs-12">--%>
-
-<%--                                            <div class="col-xs-6">--%>
-<%--                                                    &lt;%&ndash;                                                <label class="checkbox-inline">&ndash;%&gt;--%>
-<%--                                                    &lt;%&ndash;                                                    <input type="checkbox" name="typeCode" value="noi-that"> Nội thất&ndash;%&gt;--%>
-<%--                                                    &lt;%&ndash;                                                </label>&ndash;%&gt;--%>
-<%--                                                    &lt;%&ndash;                                                <label  class="checkbox-inline">&ndash;%&gt;--%>
-<%--                                                    &lt;%&ndash;                                                    <input type="checkbox"  name="typeCode" value="tang-tret" > Tầng trệt&ndash;%&gt;--%>
-<%--                                                    &lt;%&ndash;                                                </label>&ndash;%&gt;--%>
-<%--                                                    &lt;%&ndash;                                                <label  class="checkbox-inline">&ndash;%&gt;--%>
-<%--                                                    &lt;%&ndash;                                                    <input type="checkbox"  name="typeCode" value="nguyen-can"> Nguyên Căn&ndash;%&gt;--%>
-<%--                                                    &lt;%&ndash;                                                </label>&ndash;%&gt;--%>
-<%--                                                <form:checkboxes path="typeCode" items="${typeCodes}"/>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-
-                                        <!-- Hàng 7 -->
                                         <div class="col-xs-12">
 
                                             <div class="col-xs-6">
@@ -424,7 +312,7 @@
             }
         });
     }
-    // Giao khách hàng cho nhân viên
+
     $('#btn-aggsingmentCustomer').click(function(e) {
         e.preventDefault();
         var json = {};
@@ -442,7 +330,6 @@
         }
     });
 
-    // Ajax Assignment Customer
     function updateAssingment(data){
         $.ajax({
             url: '/api/assingments/customer',

@@ -8,10 +8,13 @@ public class CustomerDTO extends AbstractDTO{
 
     private Long id;
 
+    @NotBlank(message = "Vui lòng nhập họ tên")
     private String name;
 
+    @NotBlank(message = "Vui lòng nhập số điện thoại")
     private String phone;
 
+    @NotBlank(message = "Vui lòng nhập email")
     private String email;
 
     private String companyName;

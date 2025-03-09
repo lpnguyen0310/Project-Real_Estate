@@ -31,4 +31,6 @@ public interface ICustormerService {
     List<StaffResponseDTO> getStaffsByCustomer(Long customerId);
 
     List<CustomerResponseDTO> findCustomerByStaff(Long staffId, CustomerSearchRequest params,Pageable pageable);
+
+    boolean findCustomerByIdAndStaffId(Long customerId, Long staffId);
 }

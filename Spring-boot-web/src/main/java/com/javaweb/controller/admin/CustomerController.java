@@ -44,12 +44,12 @@ public class CustomerController {
         ModelAndView mav = new ModelAndView("admin/customer/list");
         params.setTableId("customer");
         DisplayTagUtils.of(request, params);
-       // nếu là staff chỉ xem được khách hàng của mình
-        // Lấy ID nhân viên đang đăng nhập
-        Long staffId = SecurityUtils.getPrincipal().getId();
+        // Nếu user là STAFF, tự động gán staffId mà không cần từ form
+        if (SecurityUtils.getAuthorities().contains(SystemConstant.STAFF_ROLE)) {
+            Long staffId = SecurityUtils.getPrincipal().getId();
+            params.setStaffId(staffId);  // Gán ID nhân viên vào params
+        }
 
-        // Kiểm tra vai trò của người dùng
-        boolean isStaff = SecurityUtils.getAuthorities().contains("STAFF");
 
 
         Pageable pageable = PageRequest.of(params.getPage() - 1, params.getMaxPageItems());
@@ -59,6 +59,8 @@ public class CustomerController {
         params.setTotalItems(total);
         mav.addObject("customers", customers);
         mav.addObject("status", Status.getStatus());
+        mav.addObject("modelSearch", params);
+
         return mav;
     }
 
@@ -72,7 +74,12 @@ public class CustomerController {
     @GetMapping("admin/customer-edit-{id}")
     public ModelAndView editCustomer(@PathVariable("id") Long customerId) {
         ModelAndView mav = new ModelAndView("admin/customer/edit");
-
+        if(SecurityUtils.getAuthorities().contains(SystemConstant.STAFF_ROLE)){
+            Long staffId = SecurityUtils.getPrincipal().getId();
+            if(!custormerService.findCustomerByIdAndStaffId(customerId, staffId)){
+                return new ModelAndView("redirect:/error/403");
+            }
+        }
         // Lấy thông tin khách hàng
         CustomerDTO customer = custormerService.findCustomerById(customerId);
         mav.addObject("customer", customer);

@@ -1,9 +1,11 @@
 package com.javaweb.repository.custom.impl;
 
+import com.javaweb.builder.BuildingSearchBuilder;
 import com.javaweb.builder.CustomerSearchBuilder;
 import com.javaweb.entity.CustomerEntity;
 import com.javaweb.repository.CustomerRepository;
 import com.javaweb.repository.custom.CustomerRepositoryCustom;
+import com.javaweb.utils.DataUtil;
 import org.springframework.data.domain.Pageable;
 
 import javax.persistence.EntityManager;
@@ -18,24 +20,44 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 
     private void sqlWhereNormal(CustomerSearchBuilder builder, StringBuilder sql) {
         if (builder.getFullName() != null && !builder.getFullName().isEmpty()) {
-            sql.append(" AND fullName LIKE '%").append(builder.getFullName()).append("%'");
+            sql.append(" AND c.fullname LIKE '%").append(builder.getFullName()).append("%'");
         }
         if (builder.getEmail() != null && !builder.getEmail().isEmpty()) {
-            sql.append(" AND email LIKE '%").append(builder.getEmail()).append("%'");
+            sql.append(" AND c.email LIKE '%").append(builder.getEmail()).append("%'");
         }
         if (builder.getPhone() != null && !builder.getPhone().isEmpty()) {
-            sql.append(" AND phone LIKE '%").append(builder.getPhone()).append("%'");
+            sql.append(" AND c.phone LIKE '%").append(builder.getPhone()).append("%'");
         }
         if (builder.getStatus() != null && !builder.getStatus().isEmpty()) {
-            sql.append(" AND status LIKE '%").append(builder.getStatus()).append("%'");
+            sql.append(" AND c.status LIKE '%").append(builder.getStatus()).append("%'");
+        }
+    }
+
+
+    private void sqlJoin(CustomerSearchBuilder builder, StringBuilder sql) {
+        Long staffId = builder.getStaffId();
+        if (DataUtil.checkData(staffId)) {
+            sql.append(" JOIN assignmentcustomer ac ON c.id = ac.customerid ");
+        }
+    }
+
+    private void whereClause(CustomerSearchBuilder builder, StringBuilder sql) {
+        Long staffId = builder.getStaffId();
+        if (DataUtil.checkData(staffId)) {
+            sql.append(" AND ac.staffid = " + staffId);
         }
     }
 
 
     @Override
     public List<CustomerEntity> findAllCustomer(CustomerSearchBuilder builder, Pageable pageable) {
-        StringBuilder sql = new StringBuilder("SELECT * FROM customer WHERE is_active = '1'");
-        sqlWhereNormal(builder, sql);
+        StringBuilder sql = new StringBuilder("SELECT c.* FROM customer as c \r\n");
+        sqlJoin(builder, sql); // Join bảng nếu có
+        StringBuilder where = new StringBuilder(" WHERE c.is_active = '1'");
+
+        sqlWhereNormal(builder, where); // Tách điều kiện WHERE
+        whereClause(builder, where);
+        sql.append(where).append(" group by c.id \r\n");
         sql.append(" LIMIT ").append(pageable.getPageSize())
                 .append(" OFFSET ").append(pageable.getOffset());
         Query query = entityManager.createNativeQuery(sql.toString(), CustomerEntity.class);
@@ -45,8 +67,12 @@ public class CustomerRepositoryImpl implements CustomerRepositoryCustom {
 
     @Override
     public int countTotalBuildings(CustomerSearchBuilder builder) {
-        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM customer WHERE is_active = '1'");
-        sqlWhereNormal(builder, sql); // Tách điều kiện WHERE
+        StringBuilder sql = new StringBuilder("SELECT COUNT(*) FROM customer as c \r\n");
+        sqlJoin(builder, sql); // Join bảng nếu có
+        StringBuilder where = new StringBuilder(" WHERE c.is_active = '1'");
+        sqlWhereNormal(builder, where); // Tách điều kiện WHERE
+        whereClause(builder, where);
+        sql.append(where);
         Query query = entityManager.createNativeQuery(sql.toString());
         return ((Number) query.getSingleResult()).intValue();
     }

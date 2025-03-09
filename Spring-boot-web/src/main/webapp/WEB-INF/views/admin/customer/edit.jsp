@@ -361,6 +361,7 @@
         console.log("Dữ liệu gửi API:", json);
 
         var isValid = true;
+
         if (isValid){
             AddCustomer(json);
         }

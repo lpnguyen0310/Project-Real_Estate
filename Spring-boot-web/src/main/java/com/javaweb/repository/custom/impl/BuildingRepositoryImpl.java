@@ -100,7 +100,7 @@ public class BuildingRepositoryImpl implements BuildingRepositoryCustom {
     public List<BuildingEntity> findAll(BuildingSearchBuilder builder, Pageable pageable) {
         StringBuilder sql = new StringBuilder("select b.* from building b \r\n");
         sqlJoin(builder, sql);
-        StringBuilder where = new StringBuilder(" where 1 = 1");
+        StringBuilder where  = new StringBuilder(" where 1 = 1");
         sqlWhereNormal(builder, where);
         sqlWhereSpecial(builder, where);
         sql.append(where).append(" group by b.id \r\n");

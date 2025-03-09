@@ -13,12 +13,15 @@ public class CustomerSearchBuilder {
 
     private String status;
 
+    private Long staffId;
+
 
     private CustomerSearchBuilder(Builder builder) {
         this.fullName = builder.fullName;
         this.phone = builder.phone;
         this.email = builder.email;
         this.status = builder.status;
+        this.staffId = builder.staffId;
     }
 
     public String getFullName() {
@@ -36,6 +39,10 @@ public class CustomerSearchBuilder {
     public String getStatus() {
         return status;
     }
+
+    public Long getStaffId() {
+        return staffId;
+    }
     public String getStatusForDatabase() {
         if (this.status != null) {
             Status enumStatus = Status.valueOf(this.status); // Chuyển từ Enum về Status object
@@ -48,6 +55,13 @@ public class CustomerSearchBuilder {
         private String phone;
         private String email;
         private String status;
+
+        private Long staffId;
+
+        public Builder setStaffId(Long staffId) {
+            this.staffId = staffId;
+            return this;
+        }
 
         public Builder setFullName(String fullName) {
             this.fullName = fullName;

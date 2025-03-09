@@ -35,7 +35,9 @@ public class CustomerEntity  extends BaseEntity{
     @Column(name = "phone")
     @NotBlank(message = "Vui lòng nhập số điện thoại")
     private String phone;
+
     @Column(name = "email")
+    @NotBlank(message = "Vui lòng nhập email")
     private String email;
     @Column(name = "companyname")
     private String companyName;
