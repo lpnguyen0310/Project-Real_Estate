@@ -53,17 +53,11 @@ public class CustomerEntity  extends BaseEntity{
             inverseJoinColumns = @JoinColumn(name = "staffid"))
     private List<UserEntity> userEntities;
 
-    @OneToMany(mappedBy = "customerEntity", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "customerEntity", cascade = CascadeType.PERSIST)
     private List<TransactionEntity> transactionEntities = new ArrayList<>();
 
 
-    public List<TransactionEntity> getTransactionEntities() {
-        return transactionEntities;
-    }
 
-    public void setTransactionEntities(List<TransactionEntity> transactionEntities) {
-        this.transactionEntities = transactionEntities;
-    }
 
     public List<UserEntity> getUserEntities() {
         return userEntities;

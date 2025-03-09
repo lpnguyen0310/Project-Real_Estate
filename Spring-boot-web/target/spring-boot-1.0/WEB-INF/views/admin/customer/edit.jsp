@@ -417,7 +417,7 @@
             success: function (response) {
                 alert("Lưu giao dịch thành công!");
                 location.reload(); // Refresh lại trang để cập nhật giao diện
-               
+
             },
             error: function () {
                 alert("Có lỗi xảy ra, vui lòng thử lại!");
