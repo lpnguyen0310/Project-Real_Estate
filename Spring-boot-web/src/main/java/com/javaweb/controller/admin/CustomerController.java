@@ -2,14 +2,11 @@ package com.javaweb.controller.admin;
 
 import com.javaweb.constant.SystemConstant;
 import com.javaweb.enums.Status;
-import com.javaweb.enums.TransactionType;
 import com.javaweb.model.dto.CustomerDTO;
 import com.javaweb.model.dto.CustomerResponseDTO;
-import com.javaweb.model.dto.TransactionDTO;
 import com.javaweb.model.dto.TransactionResponseDTO;
 import com.javaweb.model.request.CustomerSearchRequest;
 import com.javaweb.repository.CustomerRepository;
-import com.javaweb.repository.TransactionRepository;
 import com.javaweb.security.utils.SecurityUtils;
 import com.javaweb.service.ICustormerService;
 import com.javaweb.service.ITransactionService;
@@ -77,7 +74,8 @@ public class CustomerController {
         if(SecurityUtils.getAuthorities().contains(SystemConstant.STAFF_ROLE)){
             Long staffId = SecurityUtils.getPrincipal().getId();
             if(!custormerService.findCustomerByIdAndStaffId(customerId, staffId)){
-                return new ModelAndView("redirect:/error/403");
+                return new ModelAndView("redirect:/error/404");
+
             }
         }
         // Lấy thông tin khách hàng

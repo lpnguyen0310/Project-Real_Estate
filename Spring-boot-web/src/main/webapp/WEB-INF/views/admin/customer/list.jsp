@@ -121,7 +121,7 @@
                         <div class="pull-right" >
                             <a href="/admin/customer-edit">
                                 <button class="btn btn-app btn-primary btn-sm" title="Thêm Khách Hàng">
-                                    <i class="ace-icon fa fa-home"></i>
+                                    <i class="ace-icon fa fa-user"></i>
                                 </button>
                             </a>
                             <security:authorize access="hasRole('MANAGER')">

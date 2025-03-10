@@ -121,7 +121,7 @@
                         <div class="pull-right" >
                             <a href="/admin/customer-edit">
                                 <button class="btn btn-app btn-primary btn-sm" title="Thêm Khách Hàng">
-                                    <i class="ace-icon fa fa-home"></i>
+                                    <i class="ace-icon fa fa-user"></i>
                                 </button>
                             </a>
                             <security:authorize access="hasRole('MANAGER')">
@@ -312,7 +312,7 @@
             }
         });
     }
-    // Giao khách hàng cho nhân viên
+
     $('#btn-aggsingmentCustomer').click(function(e) {
         e.preventDefault();
         var json = {};
@@ -330,7 +330,6 @@
         }
     });
 
-    // Ajax Assignment Customer
     function updateAssingment(data){
         $.ajax({
             url: '/api/assingments/customer',

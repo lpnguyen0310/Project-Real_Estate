@@ -12,7 +12,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -71,10 +73,10 @@ public class CustomerAPI {
         try {
             // Kiểm tra lỗi validate từ phía client
             if (bindingResult.hasErrors()) {
-                List<String> errors = bindingResult.getFieldErrors()
-                        .stream()
-                        .map(FieldError::getDefaultMessage)
-                        .collect(Collectors.toList());
+                Map<String, String> errors = new HashMap<>();
+                for (FieldError error : bindingResult.getFieldErrors()) {
+                    errors.put(error.getField(), error.getDefaultMessage()); // Trả về lỗi từng field
+                }
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
             }
             // Lưu d liệu vào database

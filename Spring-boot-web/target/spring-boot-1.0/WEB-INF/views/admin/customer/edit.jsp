@@ -335,18 +335,29 @@
             data: JSON.stringify(data), // Convert từ Object sang JSON
             contentType: 'application/json', // Kiểu dữ liệu gửi đi là JSON
             success: function (response) {
-                alert(action + ' tòa nhà thành công');
+                alert(action + ' khách hàng thành công');
                 window.location.href="<c:url value="/admin/customer-list" />"
                 console.log('Success');
             },
-            error: function (response) {
+            error: function (xhr) {
                 console.log('Fail');
-                $('.error-message').remove(); // Xóa thông báo lỗi cũ
-                if (response.status === 400) {
-                    $('#phone').after('<span class="error-message" style="color: red">' + response.responseText + '</span>');
+                $('.error-message').remove(); // Xóa toàn bộ thông báo lỗi trước khi hiển thị lỗi mới
 
+                if (xhr.status === 400) {
+                    var errors = xhr.responseJSON; // Lấy danh sách lỗi từ response JSON
+                    console.log(errors);
+
+                    // Lặp qua từng lỗi và hiển thị ngay bên dưới input tương ứng
+                    Object.keys(errors).forEach(function (field) {
+                        var errorMessage = errors[field]; // Lấy lỗi của field
+                        var inputField = $("#" + field); // Tìm input theo ID (phải trùng với field của DTO)
+
+                        if (inputField.length) {
+                            inputField.after('<span class="error-message" style="color: red">' + errorMessage + '</span>');
+                        }
+                    });
                 } else {
-                    alert('Có lỗi xảy ra, vui lòng thử lại sau');
+                    alert('Có lỗi xảy ra, vui lòng thử lại sau.');
                 }
             }
         })
@@ -361,6 +372,7 @@
         console.log("Dữ liệu gửi API:", json);
 
         var isValid = true;
+
         if (isValid){
             AddCustomer(json);
         }

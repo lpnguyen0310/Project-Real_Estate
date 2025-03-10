@@ -272,10 +272,17 @@
             $('#name').after('<span class="error-message"  style="color: red">Vui lòng nhập họ và tên</span>');
             isValid = false;
         }
-        if (json['phone'] === '' || isNaN(json['phone']) || json['phone'].length < 10) {
+        if (json['phone'] === '' || isNaN(json['phone'])) {
             $('#phone').after('<span class="error-message" style="color: red">Vui lòng nhập số điện thoại hợp lệ</span>');
             isValid = false;
+        } else if (json['phone'].length !== 10) {
+            $('#phone').after('<span class="error-message" style="color: red">Vui lòng nhập đủ 10 số</span>');
+            isValid = false;
+        } else if (json['phone'][0] !== '0') {
+            $('#phone').after('<span class="error-message" style="color: red">Số điện thoại không hợp lệ</span>');
+            isValid = false;
         }
+
 
         if(isValid){
             sendContactForm(json);
