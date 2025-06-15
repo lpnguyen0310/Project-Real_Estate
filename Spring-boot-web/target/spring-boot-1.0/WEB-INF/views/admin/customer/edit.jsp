@@ -11,52 +11,17 @@
 
 <html>
 <head>
-    <title>Title</title>
+    <title>Khách Hàng</title>
 </head>
+
 <body>
 <div class="main-container" id="main-container">
-    <script type="text/javascript">
-        try{ace.settings.check('main-container' , 'fixed')}catch(e){}
-    </script>
 
-    <div id="sidebar" class="sidebar                  responsive">
+    <div id="sidebar" class="sidebar responsive" style="border-color: white; background-color: white;">
         <script type="text/javascript">
             try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
         </script>
-
-        <div class="sidebar-shortcuts" id="sidebar-shortcuts">
-            <div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
-                <button class="btn btn-success">
-                    <i class="ace-icon fa fa-signal"></i>
-                </button>
-
-                <button class="btn btn-info">
-                    <i class="ace-icon fa fa-pencil"></i>
-                </button>
-
-                <button class="btn btn-warning">
-                    <i class="ace-icon fa fa-users"></i>
-                </button>
-
-                <button class="btn btn-danger">
-                    <i class="ace-icon fa fa-cogs"></i>
-                </button>
-            </div>
-
-            <div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
-                <span class="btn btn-success"></span>
-
-                <span class="btn btn-info"></span>
-
-                <span class="btn btn-warning"></span>
-
-                <span class="btn btn-danger"></span>
-            </div>
-        </div><!-- /.sidebar-shortcuts -->
-
-
     </div>
-
     <div class="main-content">
         <div class="main-content-inner">
             <div class="breadcrumbs" id="breadcrumbs">
@@ -73,8 +38,9 @@
                 </ul><!-- /.breadcrumb -->
 
             </div>
+<%--            đặt chiều cao full--%>
 
-            <div class="page-content">
+            <div class="page-content ">
 
                 <div class="page-header">
                     <h1>
@@ -85,7 +51,7 @@
                         </small>
                     </h1>
                 </div><!-- /.page-header -->
-                <div class="row">
+                <div class="row ">
                     <div class="col-xs-12">
                         <form:form class="form-horizontal" role="form" id="from-edit" modelAttribute="customer" >
                             <div class="form-group">
@@ -152,6 +118,9 @@
                         </form:form>
                     </div>
                 </div>
+<%--            Fix lech mau--%>
+
+
                 <c:if test="${not empty customer.id}">
                     <div class="col-xs-12">
                         <h2 class="smaller lighter blue">
@@ -457,6 +426,15 @@
 
 
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const sidebar = document.getElementById('sidebar');
+        if (sidebar) {
+            sidebar.style.backgroundColor = '#f2f2f2';
+        }
+    });
+</script>
+
 </div><!-- /.main-container -->
 </body>
 </html>
