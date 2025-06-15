@@ -103,10 +103,10 @@
                                 <label class="col-xs-3 control-label"></label>
                                 <div class="col-xs-9" >
                                     <c:if test="${not empty customer.id}">
-                                        <button type="button" class="btn btn-dark" id="btnAddCustomer">Sửa Tòa Nhà</button>
+                                        <button type="button" class="btn btn-dark" id="btnAddCustomer">Sửa Khách Hàng</button>
                                     </c:if>
                                     <c:if test="${empty customer.id}">
-                                        <button type="button" class="btn btn-primary" id="btnAddCustomer">Thêm Tòa Nhà</button>
+                                        <button type="button" class="btn btn-primary" id="btnAddCustomer">Thêm Khách Hàng</button>
                                     </c:if>
 
                                     <button type="button" class="btn btn-warning" id="btnCancel">Hủy Thao Tác</button>
@@ -115,6 +115,11 @@
                                 </div>
                             </div>
                             <form:hidden path="id"/>
+                            <c:if test="${not empty customer.staffIds}">
+                                <c:forEach var="id" items="${customer.staffIds}">
+                                    <input type="hidden" name="staffIds" value="${id}" />
+                                </c:forEach>
+                            </c:if>
                         </form:form>
                     </div>
                 </div>
@@ -333,22 +338,30 @@
     }
     $('#btnAddCustomer').click(function (e) {
         e.preventDefault();
-        var formData = $('#from-edit').serializeArray(); // Mảng các đổi tượng
+
+        var formData = $('#from-edit').serializeArray(); // Lấy toàn bộ input trong form
         var json = {};
+
+        // Xử lý từng trường trong form
         $.each(formData, function (i, field) {
-            json["" + field.name + ""] = field.value;
+            if (field.name === "staffIds") {
+                if (!json["staffIds"]) json["staffIds"] = [];
+                json["staffIds"].push(parseInt(field.value)); // ép kiểu sang số
+            } else {
+                json[field.name] = field.value;
+            }
         });
-        console.log("Dữ liệu gửi API:", json);
+
+        console.log("Dữ liệu gửi API:", json); //  debug kiểm tra dữ liệu đúng chưa
 
         var isValid = true;
 
-        if (isValid){
+        if (isValid) {
             AddCustomer(json);
-        }
-        else{
+        } else {
             alert('Vui lòng nhập đầy đủ thông tin');
         }
-    })
+    });
 
     $('#btnCancel').click(function (e){
         e.preventDefault();

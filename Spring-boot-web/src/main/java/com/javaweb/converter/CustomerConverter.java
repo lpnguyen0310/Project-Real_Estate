@@ -9,7 +9,9 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 public class CustomerConverter {
@@ -23,6 +25,15 @@ public class CustomerConverter {
 
         if (entity.getStatus() != null) {
             customerDTO.setStatus(entity.getStatus());  // Trả về nguyên trạng từ database
+        }
+
+        // ✅ Map userEntities → staffIds
+        if (entity.getUserEntities() != null && !entity.getUserEntities().isEmpty()) {
+            List<Long> staffIds = entity.getUserEntities()
+                    .stream()
+                    .map(user -> user.getId())
+                    .collect(Collectors.toList());
+            customerDTO.setStaffIds(staffIds);
         }
         return customerDTO;
     }

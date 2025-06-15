@@ -101,6 +101,15 @@ public class CustomerService implements ICustormerService {
                 customerEntity.setCreatedDate(oldCustomer.getCreatedDate());
                 customerEntity.setCreatedBy(oldCustomer.getCreatedBy());
             }
+
+            // check nhan vien đang quản lý khách hàng này
+            // ⚠️ THÊM DÒNG NÀY
+            if (customerDTO.getStaffIds() != null && !customerDTO.getStaffIds().isEmpty()) {
+                List<UserEntity> staffEntities = userRepository.findAllById(customerDTO.getStaffIds());
+                customerEntity.setUserEntities(staffEntities);
+            } else {
+                customerEntity.setUserEntities(oldCustomer.getUserEntities()); // giữ nguyên nếu không cập nhật
+            }
         }
         customerEntity = customerRepository.save(customerEntity);
         return customerConverter.convertToDto(customerEntity);

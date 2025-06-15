@@ -68,6 +68,8 @@ public class CustomerController {
         mav.addObject("status", Status.getStatus());
         return mav;
     }
+
+
     @GetMapping("admin/customer-edit-{id}")
     public ModelAndView editCustomer(@PathVariable("id") Long customerId) {
         ModelAndView mav = new ModelAndView("admin/customer/edit");

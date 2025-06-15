@@ -3,6 +3,7 @@ package com.javaweb.model.dto;
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 public class CustomerDTO extends AbstractDTO{
 
@@ -25,6 +26,15 @@ public class CustomerDTO extends AbstractDTO{
 
     private int is_active = 1;
 
+    private List<Long> staffIds; //
+
+    public List<Long> getStaffIds() {
+        return staffIds;
+    }
+
+    public void setStaffIds(List<Long> staffIds) {
+        this.staffIds = staffIds;
+    }
 
     @Override
     public Long getId() {

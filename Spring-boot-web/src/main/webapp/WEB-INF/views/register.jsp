@@ -9,21 +9,6 @@
 <div class="container">
     <div class="fa-registered-form">
         <div class="main-div">
-<%--            <c:if test="${param.incorrectAccount != null}">--%>
-<%--                <div class="alert alert-danger">--%>
-<%--                    Username or password incorrect--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
-<%--            <c:if test="${param.accessDenied != null}">--%>
-<%--                <div class="alert alert-danger">--%>
-<%--                    You Not authorize--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
-<%--            <c:if test="${param.sessionTimeout != null}">--%>
-<%--                <div class="alert alert-danger">--%>
-<%--                    Session Timeout--%>
-<%--                </div>--%>
-<%--            </c:if>--%>
             <div class="container-fluid" >
                 <section class="gradient-custom">
                     <div class="page-wrapper">
