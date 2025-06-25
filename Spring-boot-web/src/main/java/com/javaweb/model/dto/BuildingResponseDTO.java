@@ -10,6 +10,17 @@ public class BuildingResponseDTO {
     private Long floorArea;
     private String structure;
     private String rentArea;
+
+    private String avatar;
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
     private Long rentPrice;
     private String serviceFee;
     private String brokerageFee;

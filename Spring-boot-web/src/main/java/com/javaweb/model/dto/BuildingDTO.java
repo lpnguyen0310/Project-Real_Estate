@@ -1,7 +1,14 @@
 package com.javaweb.model.dto;
 
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -92,6 +99,25 @@ public class BuildingDTO extends AbstractDTO{
     @NotNull(message = "Phí môi giới không được để trống")
     @Positive(message = "Phí môi giới phải lớn hơn 0")
     private Double brokerageFee;
+
+    @CreatedDate
+    private Date createdDate;
+
+    @LastModifiedDate
+    private Date modifiedDate;
+
+    @CreatedBy
+    private String createdBy;
+
+    @LastModifiedBy
+    private String modifiedBy;
+
+
+    private Boolean isFeatured;
+
+
+    private Long viewCount ;
+
     private String avatar;
     private String imageBase64;
     private String imageName;
@@ -357,5 +383,61 @@ public class BuildingDTO extends AbstractDTO{
 
     public void setRentPrice(Long rentPrice) {
         this.rentPrice = rentPrice;
+    }
+
+    @Override
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    @Override
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    @Override
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    @Override
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    @Override
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    @Override
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    @Override
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    @Override
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
+    public Boolean getFeatured() {
+        return isFeatured;
+    }
+
+    public void setFeatured(Boolean featured) {
+        isFeatured = featured;
+    }
+
+    public Long getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount) {
+        this.viewCount = viewCount;
     }
 }

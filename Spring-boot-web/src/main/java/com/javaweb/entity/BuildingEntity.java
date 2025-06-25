@@ -1,5 +1,12 @@
 package com.javaweb.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
@@ -8,6 +15,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "building")
+@Getter
+@Setter
 public class BuildingEntity extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -111,14 +120,18 @@ public class BuildingEntity extends BaseEntity{
     private String avatar;
 
     @Column(name = "createddate")
+    @CreatedDate
     private Date createdDate;
 
+    @LastModifiedDate
     @Column(name = "modifieddate")
     private Date modifiedDate;
 
+    @CreatedBy
     @Column(name = "createdby")
     private String createdBy;
 
+    @LastModifiedBy
     @Column(name = "modifiedby")
     private String modifiedBy;
 
@@ -130,6 +143,13 @@ public class BuildingEntity extends BaseEntity{
 
     @Column(name = "type")
     private String typeCode;
+
+
+    @Column(name = "is_featured")
+    private Boolean isFeatured;
+
+    @Column(name = "view_count")
+    private Long viewCount ;
 
     @ManyToMany
     @JoinTable(
@@ -440,5 +460,21 @@ public class BuildingEntity extends BaseEntity{
 
     public void setDistrict(String district) {
         this.district = district;
+    }
+
+    public Boolean getFeatured() {
+        return isFeatured;
+    }
+
+    public void setFeatured(Boolean featured) {
+        isFeatured = featured;
+    }
+
+    public Long getViewCount() {
+        return viewCount;
+    }
+
+    public void setViewCount(Long viewCount) {
+        this.viewCount = viewCount;
     }
 }

@@ -98,6 +98,6 @@ public class BuildingController {
         return mav;
     }
 
-
+    // Web API cho khách hàng
 
 }

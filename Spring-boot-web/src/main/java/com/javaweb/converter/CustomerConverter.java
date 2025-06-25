@@ -27,7 +27,7 @@ public class CustomerConverter {
             customerDTO.setStatus(entity.getStatus());  // Trả về nguyên trạng từ database
         }
 
-        // ✅ Map userEntities → staffIds
+        // Map userEntities → staffIds
         if (entity.getUserEntities() != null && !entity.getUserEntities().isEmpty()) {
             List<Long> staffIds = entity.getUserEntities()
                     .stream()

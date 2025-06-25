@@ -1,4 +1,4 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+    <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%--
   Created by IntelliJ IDEA.
   User: Dell
@@ -343,6 +343,7 @@
 
     $('#btnAddBuilding').click(function (e) {
             e.preventDefault();
+            // Đổ dữ liệu từ form vào mảng
             var formData = $('#from-edit').serializeArray(); // Mảng các đổi tượng
             var json = {};
             var typeCode = [];

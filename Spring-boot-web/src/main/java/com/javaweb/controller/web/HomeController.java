@@ -2,8 +2,14 @@ package com.javaweb.controller.web;
 
 import com.javaweb.enums.City;
 import com.javaweb.enums.TypeRealEstate;
+import com.javaweb.model.dto.BuildingResponseDTO;
 import com.javaweb.model.request.BuildingSearchRequest;
+import com.javaweb.service.IBuildingService;
 import com.javaweb.utils.DistrictCode;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -16,13 +22,23 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Controller(value = "homeControllerOfWeb")
 public class HomeController {
 
+    @Autowired
+    private IBuildingService buildingService;
+
 	@RequestMapping(value = "/trang-chu", method = RequestMethod.GET)
 	public ModelAndView homePage(BuildingSearchRequest buildingSearchRequest, HttpServletRequest request) {
 		ModelAndView mav = new ModelAndView("web/home");
+
+        Pageable pageable = PageRequest.of(0,3);
+        List<BuildingResponseDTO> listBuilding = buildingService.findAll(buildingSearchRequest, pageable);
+
+        mav.addObject("buildings", listBuilding);
+
         mav.addObject("modelSearch", buildingSearchRequest);
         mav.addObject("districts", DistrictCode.type());
         mav.addObject("cityNames", City.type());

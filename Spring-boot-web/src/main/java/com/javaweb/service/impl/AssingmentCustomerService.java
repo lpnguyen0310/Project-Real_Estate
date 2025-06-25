@@ -28,6 +28,7 @@ public class AssingmentCustomerService implements IAsignmentCustomerService {
     public void assignCustomerToStaff(Long CustomerId, List<Long> staffIds) {
         CustomerEntity customerEntity = customerRepository.findById(CustomerId)
                 .orElseThrow(() -> new RuntimeException("Customer not found"));
+
         List<Long> existingStaffIds = customerEntity.getUserEntities().stream()
                 .map(UserEntity::getId)
                 .collect(Collectors.toList());

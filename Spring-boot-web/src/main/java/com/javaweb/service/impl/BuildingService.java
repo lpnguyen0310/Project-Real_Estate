@@ -20,6 +20,7 @@ import org.apache.tomcat.util.codec.binary.Base64;
 import org.hibernate.Hibernate;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -132,8 +133,6 @@ public class BuildingService implements IBuildingService {
         // Nếu dùng ManyToMany
         //assignmentRepository.deleteAssingmentByBuildingId(ids);
         buildingRepository.deleteBuildingById(ids);
-
-
     }
 
     @Override
@@ -203,6 +202,21 @@ public class BuildingService implements IBuildingService {
             return false;
         }
         return buildingEntity.getAssignedStaffs().contains(userEntity);
+    }
+
+    @Override
+    public List<BuildingResponseDTO> findFeaturedBuildings() {
+        List<BuildingEntity> buildings = buildingRepository.findByIsFeaturedTrue(PageRequest.of(0, 6));
+        return buildingConverter.toBuildingDTO((BuildingEntity) buildings).getListResult();    }
+
+    @Override
+    public List<BuildingResponseDTO> findLatestBuildings() {
+        return null;
+    }
+
+    @Override
+    public List<BuildingResponseDTO> findMostViewedBuildings() {
+        return null;
     }
 
     private void saveThumbnail(BuildingDTO buildingDTO, BuildingEntity buildingEntity) {

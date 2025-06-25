@@ -146,14 +146,14 @@
                     </div>
                     <div class="col-xs-12">
                         <table class="table table-bordered table-striped">
-                            <thead>
+                            <thead  style="border-radius: 1rem; background-color: #35bf76;">
                             <tr>
-                                <th class="text-center">NGÀY TẠO</th>
-                                <th class="text-center">NGƯỜI TẠO</th>
-                                <th class="text-center">NGÀY SỬA</th>
-                                <th class="text-center">NGƯỜI SỬA</th>
-                                <th class="text-center">CHI TIẾT GIAO DỊCH</th>
-                                <th class="text-center">THAO TÁC</th>
+                                <th class="text-center white" style="background-color: #35bf76;">NGÀY TẠO</th>
+                                <th class="text-center white" style="background-color: #35bf76;">NGƯỜI TẠO</th>
+                                <th class="text-center white" style="background-color: #35bf76;">NGÀY SỬA</th>
+                                <th class="text-center white" style="background-color: #35bf76;">NGƯỜI SỬA</th>
+                                <th class="text-center white" style="background-color: #35bf76;">CHI TIẾT GIAO DỊCH</th>
+                                <th class="text-center white" style="background-color: #35bf76;">THAO TÁC</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -164,8 +164,22 @@
                                             <tr>
                                                 <td>${transactionData.createdDate}</td>
                                                 <td>${transactionData.createdBy}</td>
-                                                <td>${transactionData.modifiedDate}</td>
-                                                <td>${transactionData.modifiedBy}</td>
+                                                <td class="text-center">
+                                                    <c:choose>
+                                                        <c:when test="${transactionData.modifiedDate ne transactionData.createdDate}">
+                                                            ${transactionData.modifiedDate}
+                                                        </c:when>
+                                                        <c:otherwise>Null</c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td class="text-center">
+                                                    <c:choose>
+                                                        <c:when test="${transactionData.modifiedDate ne transactionData.createdDate}">
+                                                            ${transactionData.modifiedBy}
+                                                        </c:when>
+                                                        <c:otherwise>Null</c:otherwise>
+                                                    </c:choose>
+                                                </td>
                                                 <td>${transactionData.note}</td>
                                                 <td class="text-center">
                                                     <button class="btn btn-info btn-sm"
@@ -173,9 +187,12 @@
                                                             data-note="${transactionData.note}">
                                                         <i class="fa fa-pencil"></i> Chỉnh Sửa
                                                     </button>
-                                                    <button class="btn btn-danger btn-sm" onclick="deleteTransaction(${transactionData.id})">
-                                                        <i class="fa fa-trash"></i> Xóa
-                                                    </button>
+                                                    <security:authorize access="hasRole('MANAGER')">
+                                                        <button class="btn btn-danger btn-sm" onclick="deleteTransaction(${transactionData.id})">
+                                                            <i class="fa fa-trash"></i> Xóa
+                                                        </button>
+                                                    </security:authorize>
+
                                                 </td>
                                             </tr>
                                         </c:if>
@@ -204,14 +221,14 @@
                     </div>
                     <div class="col-xs-12">
                         <table class="table table-bordered table-striped">
-                            <thead>
+                            <thead >
                             <tr>
-                                <th class="text-center">NGÀY TẠO</th>
-                                <th class="text-center">NGƯỜI TẠO</th>
-                                <th class="text-center">NGÀY SỬA</th>
-                                <th class="text-center">NGƯỜI SỬA</th>
-                                <th class="text-center">CHI TIẾT GIAO DỊCH</th>
-                                <th class="text-center">THAO TÁC</th>
+                                <th class="text-center white" style="background-color: #35bf76;">NGÀY TẠO</th>
+                                <th class="text-center white" style="background-color: #35bf76;">NGƯỜI TẠO</th>
+                                <th class="text-center white" style="background-color: #35bf76;">NGÀY SỬA</th>
+                                <th class="text-center white" style="background-color: #35bf76;">NGƯỜI SỬA</th>
+                                <th class="text-center white" style="background-color: #35bf76;">CHI TIẾT GIAO DỊCH</th>
+                                <th class="text-center white" style="background-color: #35bf76;">THAO TÁC</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -222,8 +239,22 @@
                                             <tr>
                                                 <td>${transactionData.createdDate}</td>
                                                 <td>${transactionData.createdBy}</td>
-                                                <td>${transactionData.modifiedDate}</td>
-                                                <td>${transactionData.modifiedBy}</td>
+                                                <td class="text-center">
+                                                    <c:choose>
+                                                        <c:when test="${transactionData.modifiedDate ne transactionData.createdDate}">
+                                                            ${transactionData.modifiedDate}
+                                                        </c:when>
+                                                        <c:otherwise>Null</c:otherwise>
+                                                    </c:choose>
+                                                </td>
+                                                <td class="text-center">
+                                                    <c:choose>
+                                                        <c:when test="${transactionData.modifiedDate ne transactionData.createdDate}">
+                                                            ${transactionData.modifiedBy}
+                                                        </c:when>
+                                                        <c:otherwise>Null</c:otherwise>
+                                                    </c:choose>
+                                                </td>
                                                 <td>${transactionData.note}</td>
                                                 <td class="text-center">
                                                 <button class="btn btn-info btn-sm"
@@ -231,9 +262,12 @@
                                                         data-note="${transactionData.note}">
                                                     <i class="fa fa-pencil"></i> Chỉnh Sửa
                                                 </button>
-                                                    <button class="btn btn-danger btn-sm" onclick="deleteTransaction(${transactionData.id})">
-                                                        <i class="fa fa-trash"></i> Xóa
-                                                    </button>
+                                                    <security:authorize access="hasRole('MANAGER')">
+                                                        <button class="btn btn-danger btn-sm" onclick="deleteTransaction(${transactionData.id})">
+                                                            <i class="fa fa-trash"></i> Xóa
+                                                        </button>
+                                                    </security:authorize>
+
                                                 </td>
                                             </tr>
                                         </c:if>

@@ -32,4 +32,10 @@ public interface IBuildingService {
 
     boolean findBuildingByIdAndStaffId(Long buildingId, Long staffId);
 
+
+    // web
+    List<BuildingResponseDTO> findFeaturedBuildings();
+    List<BuildingResponseDTO> findLatestBuildings();
+    List<BuildingResponseDTO> findMostViewedBuildings();
+
 }

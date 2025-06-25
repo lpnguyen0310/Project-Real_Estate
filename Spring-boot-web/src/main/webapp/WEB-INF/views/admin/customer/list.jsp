@@ -6,6 +6,12 @@
 <head>
     <title>Title</title>
 </head>
+<style>
+    #customer-list thead {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
 <body>
 <div class="main-content" id="main-container">
     <div class="main-content">
@@ -146,8 +152,8 @@
                                        size="${modelSearch.totalItems}" defaultsort="2" defaultorder="ascending"
                                        id="customer-list" pagesize="${modelSearch.maxPageItems}"
                                        export="false"
-                                       class="table table-fcv-ace table-striped table-bordered table-hover dataTable no-footer"
-                                       style="margin: 3em 0 1.5em;"
+                                       class="table table-fcv-ace table-striped table-bordered table-hover dataTable no-footer "
+                                       style="margin: 3em 0 1.5em"
                                        uid="customer">
 
                             <!-- Cột hiển thị checkbox -->

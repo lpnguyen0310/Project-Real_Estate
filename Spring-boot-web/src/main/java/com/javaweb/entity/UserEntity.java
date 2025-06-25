@@ -48,7 +48,7 @@ public class UserEntity extends BaseEntity {
 //        this.assignments = assignments;
 //    }
 
-    @ManyToMany(mappedBy = "assignedStaffs")
+    @ManyToMany(mappedBy = "assignedStaffs") 
     private List<BuildingEntity> assignedBuildings;
 
     public List<BuildingEntity> getAssignedBuildings() {

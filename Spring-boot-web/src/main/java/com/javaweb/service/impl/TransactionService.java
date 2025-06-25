@@ -74,6 +74,9 @@ public class TransactionService implements ITransactionService {
             transactionEntity.setCustomerEntity(customerRepository.findById(transactionDTO.getCustomerId())
                     .orElseThrow(() -> new RuntimeException("Không tìm thấy khách hàng")));
             transactionEntity.setCode(transactionDTO.getCode());
+            // Thiết lập ngày tạo giao dịch thì ngày sửa và người sửa là null
+
+
         }
 
         transactionEntity.setNote(transactionDTO.getNote()); // Cập nhật nội dung giao dịch
